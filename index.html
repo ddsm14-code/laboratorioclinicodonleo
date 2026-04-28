@@ -25,7 +25,14 @@
             color: var(--text-dark);
             line-height: 1.6;
             background-color: var(--bg-light);
-            overflow-x: hidden;
+            overflow-x: hidden; /* Evita scroll horizontal en móviles */
+        }
+
+        /* Regla de oro para imágenes 100% responsivas en cualquier dispositivo */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* ----- NAVEGACIÓN ----- */
@@ -50,6 +57,7 @@
             cursor: pointer;
         }
 
+        /* Menú Hamburguesa (Móvil) */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -200,8 +208,21 @@
         .historia-text h4 { color: var(--primary-color); font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; border-left: 3px solid var(--secondary-color); padding-left: 10px; }
         .historia-text p { color: #555; font-size: 1.05rem; line-height: 1.7; margin-bottom: 1rem; text-align: justify; }
 
-        .historia-image { flex: 1 1 300px; position: relative; }
-        .historia-image img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); object-fit: cover; }
+        .historia-image { 
+            flex: 1 1 400px; 
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .historia-image img { 
+            width: 100%; 
+            max-width: 500px; 
+            height: auto; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+            object-fit: cover; 
+        }
 
         /* ----- VISTA: SERVICIOS ----- */
         .servicios-container {
@@ -315,9 +336,10 @@
         
         .chat-tooltip { background-color: var(--white); color: var(--primary-color); padding: 8px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-right: 12px; position: relative; animation: float 3s ease-in-out infinite; cursor: pointer; }
         .chat-tooltip::after { content: ''; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); border-width: 8px 0 8px 10px; border-style: solid; border-color: transparent transparent transparent var(--white); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
         
-        .chat-btn { background: linear-gradient(135deg, var(--primary-color), #003d82); border: 3px solid var(--white); border-radius: 50%; width: 65px; height: 65px; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: transform 0.3s; animation: pulseAlert 2s infinite; }
-        .chat-btn:hover { transform: scale(1.05); animation: none; }
+        .chat-btn { background: linear-gradient(135deg, var(--primary-color), #003d82); border: 3px solid var(--white); border-radius: 50%; width: 65px; height: 65px; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: transform 0.3s; }
+        .chat-btn:hover { transform: scale(1.05); }
         
         .chat-window { display: none; width: 340px; height: 500px; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; position: absolute; bottom: 75px; right: 0; animation: slideUp 0.3s ease-out; }
         .chat-header { background-color: var(--primary-color); color: white; padding: 15px; font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; }
@@ -349,7 +371,7 @@
         .catalog-item { display: flex; justify-content: space-between; font-size: 12.5px; padding: 4px 0; border-bottom: 1px dashed #eee; }
 
         /* =========================================
-           RESPONSIVIDAD MÓVIL (MOBILE-FIRST UI) 
+           RESPONSIVIDAD ESTRICTA MÓVIL 
            ========================================= */
         @media (max-width: 768px) {
             .navbar { padding: 0.8rem 1.5rem; }
@@ -395,8 +417,18 @@
             .btn-primary { width: 100%; padding: 1rem; } 
 
             .intro-text, .historia-text, .card { padding: 1.5rem; }
-            .historia-block, .historia-block.reverse { flex-direction: column; gap: 2rem; }
-            .historia-text { text-align: center; }
+            
+            .historia-block, .historia-block.reverse { 
+                flex-direction: column; 
+                gap: 2rem; 
+            }
+            
+            .historia-image {
+                flex-basis: auto;
+                width: 100%;
+            }
+
+            .historia-text { text-align: center; width: 100%; }
             .historia-text p { text-align: left; }
             
             .chat-window { 
@@ -411,7 +443,6 @@
             .modal-content { height: 95vh; }
         }
 
-        /* Impresión PDF */
         @media print {
             body * { visibility: hidden; }
             .modal-overlay { position: absolute; left: 0; top: 0; margin: 0; padding: 0; display: block !important; background: white; }
@@ -447,6 +478,7 @@
     </header>
 
     <main>
+        
         <section id="inicio" class="page-section active">
             <div class="hero">
                 <div class="hero-content">
@@ -644,29 +676,23 @@
 
         // --- FUNCIÓN PARA NAVEGAR ENTRE PÁGINAS (SPA) ---
         function showPage(pageId) {
-            // Ocultar vistas
             const sections = document.querySelectorAll('.page-section');
             sections.forEach(section => section.classList.remove('active'));
 
-            // Quitar clase activa del menú
             const navItems = document.querySelectorAll('.nav-links li');
             navItems.forEach(link => link.classList.remove('active-link'));
 
-            // Mostrar vista seleccionada
             document.getElementById(pageId).classList.add('active');
             
-            // Marcar menú activo
             const activeNav = document.getElementById('nav-' + pageId);
             if(activeNav) activeNav.classList.add('active-link');
 
-            // CERRAR MENÚ MÓVIL SI ESTÁ ABIERTO
             if (navLinks.classList.contains('nav-active')) {
                 toggleMenu();
             }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
 
         // --- Base de Datos del Laboratorio ---
         const dbCategorizada = {
@@ -735,7 +761,6 @@
         function openCatalogModal() {
             populateCatalog();
             document.getElementById('catalogModal').style.display = 'flex';
-            // Cerrar menú móvil si está abierto
             if (navLinks.classList.contains('nav-active')) {
                 toggleMenu();
             }
