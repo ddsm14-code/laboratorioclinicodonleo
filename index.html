@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio Clínico Don Leo</title>
+    <style>
+        /* Variables globales */
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #009688;
+            --bg-light: #f4f7f6;
+            --text-dark: #333;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        /* ----- NAVEGACIÓN ----- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--primary-color);
+            padding: 0.5rem 2rem;
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background-color: var(--white);
+            border-radius: 3px;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links li {
+            cursor: pointer;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links li:hover, .nav-links li.active-link {
+            color: #d1e7dd;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        /* ----- SISTEMA DE VISTAS (SPA) ----- */
+        .page-section {
+            display: none; 
+            animation: fadeIn 0.4s ease-in-out;
+            min-height: calc(100vh - 300px); 
+            background-color: var(--white);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #inicio.active { display: block; }
+        #historia.active { display: block; }
+        #servicios.active { display: block; }
+        #faq.active { display: block; }
+
+        /* ----- VISTA: INICIO (HERO + INFO) ----- */
+        .hero {
+            background: linear-gradient(rgba(0, 86, 179, 0.7), rgba(0, 150, 136, 0.7)), url('https://scontent.fmga3-2.fna.fbcdn.net/v/t39.30808-6/476963770_3014041068762244_9078153597989559485_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=2a1932&_nc_ohc=0mTdks-obTwQ7kNvwHqeG0f&_nc_oc=Ado5nel2C83ZmAvvFwISmrjsx_d4ljQPnqgmp2AdgjW4mQRFzM8TEpIZL5_n0KGBb84JkcxW4A9ubLaGS4PPzE-e&_nc_zt=23&_nc_ht=scontent.fmga3-2.fna&_nc_gid=I8L6w9qFsyIx1cBmGEOJPQ&_nc_ss=7b2a8&oh=00_Af0erkt7e5-oKY67H8q0jxfROnqeNYxkv_hugI-GNbIKVA&oe=69F6E0B7') center/cover;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 1.5rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.2;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .btn-primary:hover {
+            background-color: #00796b;
+            transform: translateY(-2px);
+        }
+
+        .intro-section {
+            padding: 4rem 1.5rem;
+            background-color: var(--white);
+        }
+
+        .intro-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .intro-text {
+            flex: 1 1 400px;
+            background: var(--bg-light);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .intro-text.mision { border-top: 5px solid var(--secondary-color); }
+        .intro-text:hover { transform: translateY(-5px); }
+        .intro-text h2 { color: var(--primary-color); margin-bottom: 1.2rem; font-size: 1.8rem; }
+        .intro-text.mision h2 { color: var(--secondary-color); }
+        .intro-text p { color: #555; font-size: 1.05rem; line-height: 1.7; text-align: justify; margin-bottom: 1rem; }
+
+        /* ----- VISTA: HISTORIA ----- */
+        .historia-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        .historia-block {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .historia-block:last-child { margin-bottom: 0; }
+        .historia-block.reverse { flex-direction: row-reverse; }
+
+        .historia-text { flex: 1 1 400px; }
+        .historia-text h2 { color: var(--primary-color); font-size: 2rem; margin-bottom: 0.5rem; }
+        .historia-text h3 { color: var(--secondary-color); font-size: 1.3rem; margin-bottom: 1.2rem; font-weight: 500; line-height: 1.3; }
+        .historia-text h4 { color: var(--primary-color); font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; border-left: 3px solid var(--secondary-color); padding-left: 10px; }
+        .historia-text p { color: #555; font-size: 1.05rem; line-height: 1.7; margin-bottom: 1rem; text-align: justify; }
+
+        .historia-image { flex: 1 1 300px; position: relative; }
+        .historia-image img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); object-fit: cover; }
+
+        /* ----- VISTA: SERVICIOS ----- */
+        .servicios-container {
+            padding: 4rem 1.5rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .servicios-container h2 { color: var(--primary-color); margin-bottom: 2.5rem; font-size: 2rem; }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: var(--bg-light);
+            padding: 2rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            flex: 1 1 250px;
+            max-width: 350px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .card h3 { color: var(--primary-color); margin-bottom: 1rem; font-size: 1.3rem; }
+        .card p { color: #555; font-size: 1rem; line-height: 1.6; }
+
+        /* ----- VISTA: PREGUNTAS FRECUENTES (FAQ) ----- */
+        .faq-container {
+            padding: 4rem 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-container h2 { color: var(--primary-color); text-align: center; margin-bottom: 2.5rem; font-size: 2rem; }
+
+        details {
+            background-color: var(--bg-light);
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        details[open] { box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-color: var(--secondary-color); }
+
+        summary {
+            padding: 1.2rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--primary-color);
+            outline: none;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            line-height: 1.4;
+        }
+
+        summary::-webkit-details-marker { display: none; } 
+        summary::after { content: '+'; font-size: 1.5rem; color: var(--secondary-color); transition: transform 0.3s; flex-shrink: 0; margin-left: 10px; }
+        details[open] summary::after { content: '−'; }
+
+        details p {
+            padding: 0 1.5rem 1.5rem;
+            color: #555;
+            line-height: 1.6;
+            font-size: 1.05rem;
+            border-top: 1px solid transparent;
+            animation: dropDown 0.3s ease-in-out;
+        }
+
+        @keyframes dropDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ----- FOOTER ----- */
+        footer {
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+            padding: 3rem 1.5rem 1.5rem;
+            width: 100%;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            text-align: center;
+        }
+
+        .footer-column { flex: 1 1 250px; }
+        .footer-column h4 { color: var(--secondary-color); margin-bottom: 1rem; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-column p { margin-bottom: 0.5rem; font-size: 1.05rem; line-height: 1.6; }
+        .copyright { text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #333; font-size: 0.9rem; color: #888; }
+
+        /* ----- CHATBOT WIDGET ----- */
+        .chatbot-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; align-items: center; }
+        
+        .chat-tooltip { background-color: var(--white); color: var(--primary-color); padding: 8px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-right: 12px; position: relative; animation: float 3s ease-in-out infinite; cursor: pointer; }
+        .chat-tooltip::after { content: ''; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); border-width: 8px 0 8px 10px; border-style: solid; border-color: transparent transparent transparent var(--white); }
+        
+        .chat-btn { background: linear-gradient(135deg, var(--primary-color), #003d82); border: 3px solid var(--white); border-radius: 50%; width: 65px; height: 65px; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: transform 0.3s; animation: pulseAlert 2s infinite; }
+        .chat-btn:hover { transform: scale(1.05); animation: none; }
+        
+        .chat-window { display: none; width: 340px; height: 500px; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; position: absolute; bottom: 75px; right: 0; animation: slideUp 0.3s ease-out; }
+        .chat-header { background-color: var(--primary-color); color: white; padding: 15px; font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; }
+        .close-btn { background: none; border: none; color: white; font-size: 22px; cursor: pointer; transition: color 0.2s; padding: 0 5px; }
+        
+        .chat-body { flex: 1; padding: 15px; overflow-y: auto; background-color: var(--bg-light); display: flex; flex-direction: column; gap: 10px; }
+        .message { max-width: 90%; padding: 10px 14px; border-radius: 15px; font-size: 13.5px; line-height: 1.4; word-wrap: break-word; }
+        .bot-msg { background-color: white; color: #333; align-self: flex-start; border: 1px solid #e0e0e0; border-bottom-left-radius: 2px; }
+        .user-msg { background-color: var(--secondary-color); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        
+        .chat-options { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .chat-option-btn { background-color: #e0f2f1; border: 1px solid var(--secondary-color); color: var(--secondary-color); padding: 5px 10px; border-radius: 20px; font-size: 11.5px; cursor: pointer; font-weight: 500; }
+        
+        .chat-footer { display: flex; padding: 10px; background-color: white; border-top: 1px solid #eaeaea; }
+        .chat-footer input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; font-size: 13.5px; }
+        .chat-footer button { background-color: var(--primary-color); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+
+        /* ----- MODAL CATÁLOGO PRECIOS ----- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center; padding: 15px; }
+        .modal-content { background: white; width: 100%; max-width: 800px; max-height: 90vh; border-radius: 10px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; }
+        .modal-header { background: var(--primary-color); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 1.2rem; }
+        .modal-body { padding: 15px; overflow-y: auto; flex: 1; background: white; }
+        .modal-footer { padding: 15px; background: #f1f1f1; text-align: center; border-top: 1px solid #ddd; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        
+        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .catalog-category { margin-bottom: 10px; }
+        .catalog-category h4 { color: var(--secondary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 5px; margin-bottom: 8px; font-size: 13px; }
+        .catalog-item { display: flex; justify-content: space-between; font-size: 12.5px; padding: 4px 0; border-bottom: 1px dashed #eee; }
+
+        /* =========================================
+           RESPONSIVIDAD MÓVIL (MOBILE-FIRST UI) 
+           ========================================= */
+        @media (max-width: 768px) {
+            .navbar { padding: 0.8rem 1.5rem; }
+            .menu-toggle { display: flex; }
+            
+            .nav-links {
+                position: fixed;
+                top: 66px; 
+                right: -100%;
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: var(--primary-color);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 2rem;
+                transition: right 0.3s ease-in-out;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            }
+
+            .nav-links.nav-active { right: 0; }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                padding: 1.2rem 0;
+                font-size: 1.2rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .nav-links li:hover, .nav-links li.active-link {
+                border-bottom: 1px solid var(--secondary-color);
+                background-color: rgba(0, 150, 136, 0.2);
+            }
+
+            .menu-toggle.toggle-active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.toggle-active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.toggle-active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content p { font-size: 1.05rem; }
+            .btn-primary { width: 100%; padding: 1rem; } 
+
+            .intro-text, .historia-text, .card { padding: 1.5rem; }
+            .historia-block, .historia-block.reverse { flex-direction: column; gap: 2rem; }
+            .historia-text { text-align: center; }
+            .historia-text p { text-align: left; }
+            
+            .chat-window { 
+                width: calc(100vw - 30px); 
+                height: 70vh; 
+                bottom: 95px; 
+                right: -5px;
+            }
+            .chat-tooltip { display: none; } 
+            
+            .catalog-grid { grid-template-columns: 1fr; }
+            .modal-content { height: 95vh; }
+        }
+
+        /* Impresión PDF */
+        @media print {
+            body * { visibility: hidden; }
+            .modal-overlay { position: absolute; left: 0; top: 0; margin: 0; padding: 0; display: block !important; background: white; }
+            .modal-content { box-shadow: none; max-width: 100%; border-radius: 0; }
+            .modal-header .close-btn, .modal-footer { display: none; }
+            .modal-header, .modal-body, .modal-body * { visibility: visible; }
+            .catalog-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo" onclick="showPage('inicio')">
+                <img src="https://scontent.fmga11-2.fna.fbcdn.net/v/t39.30808-6/671556612_1623388872436923_1960022051136200364_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=sHQHNcBRti8Q7kNvwEfn3Wi&_nc_oc=AdpVRR75en1OUYgRPjKPXXUtMKQ_Re2M6lSeOSn69kHGLVXd8acHu2wtW6UN-uDJp7MV5t8-zzWanZ5Myd4C9lBu&_nc_zt=23&_nc_ht=scontent.fmga11-2.fna&_nc_gid=tVUP3OcUUCKoBW7JLMIbPg&_nc_ss=7b2a8&oh=00_Af2fkJXg1_R7Cgj2t7PnuHP1ELpn-xxXJjDdJ6XWg-_Lww&oe=69F6E2B9" alt="Logo Laboratorio Clínico Don Leo" class="logo-img">
+            </div>
+            
+            <div class="menu-toggle" id="mobile-menu" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li onclick="showPage('inicio')" id="nav-inicio" class="active-link">Inicio</li>
+                <li onclick="showPage('historia')" id="nav-historia">Historia</li>
+                <li onclick="showPage('servicios')" id="nav-servicios">Servicios</li>
+                <li onclick="showPage('faq')" id="nav-faq">Preguntas Frecuentes</li>
+                <li onclick="openCatalogModal()">Precios</li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="page-section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Resultados Precisos y Atención Humana en Nandaime</h1>
+                    <p>Precisión, tecnología avanzada y confianza bajo la dirección del Lic. Leonardo José Marcenaro Gutierrez.</p>
+                    <br>
+                    <a href="https://wa.me/50588845355" class="btn-primary" target="_blank">Agendar Examen por WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="intro-section">
+                <div class="intro-container">
+                    <div class="intro-text">
+                        <h2>Laboratorio Clínico Don Leo</h2>
+                        <p>Es un centro especializado en bioanálisis clínico ubicado en el corazón de Nandaime. Bajo la dirección del Lic. Leonardo José Marcenaro Gutierrez, nos dedicamos a ofrecer diagnósticos precisos con resultados comparables con los laboratorios del primer mundo.</p>
+                        <p>Nuestra prioridad es brindar confianza, ética profesional y tecnología moderna para el cuidado de la salud de nuestra comunidad.</p>
+                    </div>
+                    <div class="intro-text mision">
+                        <h2>Nuestra Misión</h2>
+                        <p>Brindar diagnósticos clínicos con los mas altos estándares de precisión, utilizando tecnología avanzada para ofrecer resultados comparables con los del primer mundo, contribuyendo así al bienestar y la salud de la comunidad de Nandaime.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="historia" class="page-section">
+            <div class="historia-container">
+                <div class="historia-block">
+                    <div class="historia-text">
+                        <h2>Nuestra Historia</h2>
+                        <h3>Un sueño hecho realidad al servicio de su salud</h3>
+                        <p>Laboratorio Clínico Don Leo nace en Nandaime con el firme compromiso de elevar el estándar de los diagnósticos médicos en nuestra comunidad.</p>
+                        <p>Fundado por el Lic. Leonardo José Marcenaro Gutierrez, este centro surge para llenar la necesidad de un servicio de bioanálisis que combine la calidez humana con la precisión tecnológica. Desde el primer día, nos hemos enfocado en que cada paciente reciba una atención digna y resultados en los que su médico pueda confiar plenamente.</p>
+                    </div>
+                    <div class="historia-image">
+                        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCyD6I8uRcmH55Xyjq1wxha8psQl3ccQ4g1JEfrMsxZuEHa9dawB0UT2MMe7ioG0ksheSz4ntTDCwPe0jNK-bRXgVV3aVZurJYqo8ca-GaBUNTiIYJObvbG1bPO68fho12AFfrxRcggkO1g2A6dmyMWkC8ianBK6soARXtzGAO6lSyNvX_ASLwHcqjZKub_JVUg9PzALfP8fQ-zYeKShJD8VyW92YTxMy1X5BY=w1280" alt="Historia del Laboratorio Clínico Don Leo">
+                    </div>
+                </div>
+                <div class="historia-block reverse">
+                    <div class="historia-text">
+                        <h2>Nuestro Fundador</h2>
+                        <h3>Biografía Profesional: Lic. Leonardo José Marcenaro Gutiérrez</h3>
+                        <h4>Trayectoria y Excelencia en Bioquímica Clínica</h4>
+                        <p>El Licenciado Leonardo José Marcenaro Gutiérrez es un respetado profesional de las ciencias de la salud con 30 años de experiencia dedicada al diagnóstico clínico. Su sólida base científica se forjó en la Universidad de La Habana, de donde egresó en 1993 como Licenciado en Bioquímica, especializándose posteriormente a través de múltiples cursos en Bioanálisis Clínico.</p>
+                        <h4>Experiencia en Instituciones de Referencia</h4>
+                        <p>Su destacada carrera incluye roles de gran responsabilidad en los hospitales más importantes del país. Se desempeñó como Jefe de Área en el Hospital Escuela Antonio Lenin Fonseca, un centro clave en la atención médica nacional, y formó parte del equipo profesional del Hospital Amistad Japón Nicaragua. En estas instituciones, el Lic. Marcenaro perfeccionó su rigor técnico y su capacidad de gestión en laboratorios de alta demanda.</p>
+                        <h4>Fundador y Propietario</h4>
+                        <p>Hoy en día, lidera su propio proyecto: el Laboratorio Clínico Don Leo. Como propietario y director, ha logrado consolidar un espacio donde la experiencia hospitalaria de tres décadas se traduce en un servicio de alta calidad, precisión diagnóstica y un trato humano excepcional para cada paciente.</p>
+                    </div>
+                    <div class="historia-image">
+                        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUD1SBI2Zlv6y6lXN9RhTXuEOT-IzFXfuKP5TdJJ73UJDEqQ3qvln2ln_QbsqysmrFOk-2SOWfMq6ijLe74spybxkb7c60Pod1odSNDFX4FmQjHR7baQx0xanUKWTZWrMDb7npWYvgB_1aLKkpTMbzN3tx6wtl0QZ-JnGshE3xFRnMjAsO-dGFmy1J9WYYVIkyQfs_IN1k9qu13cBb4O9r1g3LzZl3WAxjjTl3k=w1280" alt="Lic. Leonardo José Marcenaro Gutiérrez">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios" class="page-section">
+            <div class="servicios-container">
+                <h2>Nuestras Especialidades</h2>
+                <div class="card-container">
+                    <div class="card">
+                        <h3>Hematología</h3>
+                        <p>Análisis detallado de glóbulos rojos, blancos y plaquetas para prevenir y detectar anemias o infecciones.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Química Sanguínea</h3>
+                        <p>Control Metabólico, Perfil Lipídico y Perfil Hepático para evaluar el funcionamiento de sus órganos vitales.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Bacteriología</h3>
+                        <p>Urocultivos y Coprocultivos precisos para identificar bacterias y recibir el tratamiento adecuado.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Pruebas Especiales</h3>
+                        <p>Diagnósticos avanzados, control de hormonas, pruebas de embarazo y detección de marcadores tumorales.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="page-section">
+            <div class="faq-container">
+                <h2>Preguntas Frecuentes</h2>
+                
+                <details>
+                    <summary>¿Se necesita cita previa?</summary>
+                    <p>No es estrictamente necesario, atendemos por orden de llegada. Sin embargo, para su comodidad, puede agendar su cita a través del botón de WhatsApp.</p>
+                </details>
+
+                <details>
+                    <summary>¿Cuánto tiempo tardan en entregar los resultados?</summary>
+                    <p>La mayoría de nuestros exámenes de rutina (sangre, orina y heces) se entregan el mismo día. Pruebas especiales o cultivos de bacteriología pueden tardar entre 3 a 5 días hábiles debido a los procesos de incubación necesarios.</p>
+                </details>
+
+                <details>
+                    <summary>¿Pueden enviar mis resultados por WhatsApp?</summary>
+                    <p>¡Claro que sí! Para su conveniencia, ofrecemos el envío de resultados en formato PDF a su WhatsApp o correo electrónico, para que pueda compartirlos de inmediato con su médico sin tener que volver al laboratorio.</p>
+                </details>
+
+                <details>
+                    <summary>¿Realizan pruebas de bacteriología?</summary>
+                    <p>Sí, contamos con un área especializada en bacteriología donde realizamos urocultivos, coprocultivos y cultivos de secreciones con la mas alta precisión técnica en Nandaime.</p>
+                </details>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>📍 Ubicación</h4>
+                <p>Del Palí de Nandaime,</p>
+                <p>75 varas al Este.</p>
+                <p>Granada, Nicaragua.</p>
+            </div>
+            <div class="footer-column">
+                <h4>🕒 Horario de Atención</h4>
+                <p><strong>Lunes a Viernes:</strong></p>
+                <p>7:30 am - 2:30 pm</p>
+                <p><strong>Sábado:</strong></p>
+                <p>7:30 am - 12:30 pm</p>
+                <p><strong>Domingo:</strong> Cerrado</p>
+            </div>
+            <div class="footer-column">
+                <h4>📞 Contacto</h4>
+                <p><strong>Teléfono / WhatsApp:</strong></p>
+                <p>+505 888 45 355</p>
+                <p><strong>Email:</strong></p>
+                <p>leomarce66@yahoo.es</p>
+            </div>
+        </div>
+        <p class="copyright">© 2026 Laboratorio Clínico Don Leo. Todos los derechos reservados.</p>
+    </footer>
+
+    <div class="modal-overlay" id="catalogModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Catálogo de Precios</h3>
+                <button class="close-btn" onclick="closeCatalogModal()">✖</button>
+            </div>
+            <div class="modal-body" id="printArea">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2>Laboratorio Clínico Don Leo</h2>
+                    <p style="color: #666; font-size: 14px;">Catálogo Oficial de Exámenes y Precios</p>
+                    <p style="color: #666; font-size: 12px;">Del Palí de Nandaime, 75 varas al Este. | Tel: +505 888 45 355</p>
+                    <p style="color: #666; font-size: 12px;">Horario: L-V (7:30am - 2:30pm) | Sáb (7:30am - 12:30pm)</p>
+                    <hr style="margin-top: 10px; border: 0; border-top: 1px solid #ccc;">
+                </div>
+                <div class="catalog-grid" id="catalogGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" style="background:#555;" onclick="closeCatalogModal()">Cerrar</button>
+                <button class="btn-primary" onclick="window.print()">🖨️ Guardar PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chatbot-container">
+        <div class="chat-tooltip" id="chatTooltip" onclick="document.getElementById('chatBtn').click()">
+            ¡Hola! Consulta precios aquí
+        </div>
+        
+        <button class="chat-btn" id="chatBtn" title="Asistente Virtual Don Leo">
+            <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="10" width="90" height="80" rx="35" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+                <rect x="15" y="25" width="70" height="50" rx="20" fill="#1a1a1a"/>
+                <path d="M 28 50 Q 36 36 44 50" fill="none" stroke="#00d2ff" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 56 50 Q 64 36 72 50" fill="none" stroke="#00d2ff" stroke-width="6" stroke-linecap="round"/>
+            </svg>
+        </button>
+
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <span style="display: flex; align-items: center; gap: 8px;">🤖 Asistente Don Leo</span>
+                <button class="close-btn" id="closeChatBtn">✖</button>
+            </div>
+            <div class="chat-body" id="chatBody"></div>
+            <div class="chat-footer">
+                <input type="text" id="userInput" placeholder="Escribe aquí..." autocomplete="off">
+                <button id="sendBtn">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- FUNCIÓN DEL MENÚ MÓVIL ---
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        function toggleMenu() {
+            navLinks.classList.toggle('nav-active');
+            mobileMenu.classList.toggle('toggle-active');
+        }
+
+        // --- FUNCIÓN PARA NAVEGAR ENTRE PÁGINAS (SPA) ---
+        function showPage(pageId) {
+            // Ocultar vistas
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Quitar clase activa del menú
+            const navItems = document.querySelectorAll('.nav-links li');
+            navItems.forEach(link => link.classList.remove('active-link'));
+
+            // Mostrar vista seleccionada
+            document.getElementById(pageId).classList.add('active');
+            
+            // Marcar menú activo
+            const activeNav = document.getElementById('nav-' + pageId);
+            if(activeNav) activeNav.classList.add('active-link');
+
+            // CERRAR MENÚ MÓVIL SI ESTÁ ABIERTO
+            if (navLinks.classList.contains('nav-active')) {
+                toggleMenu();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        // --- Base de Datos del Laboratorio ---
+        const dbCategorizada = {
+            "QUÍMICA SANGUÍNEA": {
+                "GLICEMIA": "C$ 90", "CREATININA": "C$ 130", "ACIDO URICO": "C$ 150", "COLESTEROL": "C$ 150", 
+                "TRIGLICERIDOS": "C$ 150", "LDH": "C$ 500", "UREA": "C$ 150", "BUN": "C$ 150", "SODIO": "C$ 250", 
+                "POTASIO": "C$ 250", "CALCIO": "C$ 250", "MAGNESIO": "C$ 250", "FOSFORO": "C$ 250", "CLORO": "C$ 250", 
+                "VDRL": "C$ 150", "VIH": "C$ 600", "TGO": "C$ 150", "TGP": "C$ 150", "GGT": "C$ 250", 
+                "BILIRRUBINAS": "C$ 350", "PCR": "C$ 300", "ASLO": "C$ 300", "FR": "C$ 300", "AMILASA": "C$ 500", 
+                "LIPASA": "C$ 500", "ALBUMINA": "C$ 450", "PROTEINAS T Y F": "C$ 600", "HEPATITIS A": "C$ 400", 
+                "HEPATITIS B": "C$ 400", "HEPATITIS C": "C$ 400", "FOSFATASA ALCALINA": "C$ 500", "HIERRO": "C$ 500", 
+                "FERRITINA": "C$ 500", "COLINESTERASA": "C$ 900", "HEMOGRAVIDEX": "C$ 130", "H. PYLORI EN SANGRE": "C$ 450"
+            },
+            "HEMATOLOGÍA": {
+                "BHC": "C$ 130", "HEMATOCRITO": "C$ 100", "PLAQUETAS": "C$ 130", "GOTA GRUESA": "C$ 150", 
+                "TC": "C$ 130", "TS": "C$ 130", "TP": "C$ 150", "TPT": "C$ 150", "FIBRIONOGENO": "C$ 180", 
+                "INR": "C$ 180", "VSG": "C$ 150", "RETICULOCITOS": "C$ 200", "TIPO Y RH": "C$ 150", 
+                "EXTENDIDO PERIFERICO": "C$ 350", "CONSTANTES CORP.": "C$ 300"
+            },
+            "UROLOGÍA": {
+                "EGO": "C$ 90", "PROTEINAS EN O. 24 HRS": "C$ 600", "PROTEINAS EN O. ESP.": "C$ 600", 
+                "MICROALBUMINURIA": "C$ 600", "UROGRAVINDEX": "C$ 130", "RELACIÓN ALB/CREA": "C$ 600"
+            },
+            "COPROLOGÍA": {
+                "EGH": "C$ 90", "CITOLOGIA FECAL": "C$ 120", "HELICO. PYLORI EN HECES": "C$ 550", 
+                "AZUCARES REDUCTORES": "C$ 180", "SANGRE OCULTA EN HECES": "C$ 350"
+            },
+            "MICROBIOLOGÍA": {
+                "UROCULTIVO": "C$ 500", "COPROCULTIVO": "C$ 600", "EXUDADO FARINGEO": "C$ 600", 
+                "EXUDADO VAGINAL": "C$ 800", "CULTIVO DE SECRECION": "C$ 700", "ESPERMOCULTIVO": "C$ 700"
+            },
+            "PERFILES": {
+                "PERFIL HEPATICO": "C$ 850", "PERFIL LIPIDICO": "C$ 500", "PERFIL TIROIDEO": "C$ 1500", 
+                "PERFIL RENAL": "C$ 2800", "PERFIL REUMATICO": "C$ 1200"
+            },
+            "EXÁMENES ESPECIALES": {
+                "ESPERMATOGRAMA": "C$ 700", "TOLERANCIA ORAL A LA GLUC.": "C$ 700", "HBA1C": "C$ 700", 
+                "PSA": "C$ 700", "T3": "C$ 600", "T4": "C$ 600", "TSH": "C$ 600", "ANA": "C$ 2500", 
+                "PROCALCITONINA": "C$ 2500", "CA 125": "C$ 2000", "CA 19.9": "C$ 2000", "CA 15.3": "C$ 2000", 
+                "CEA": "C$ 2500", "ALFAFETOPROTEINA": "C$ 1500", "COCAINA": "C$ 500", "MARIHUANA": "C$ 500", 
+                "BETA HCG": "C$ 1600", "TROPONINA": "C$ 1000", "PROLACTINA": "C$ 2500", "CITOMEGALOVIRUS": "C$ 1500", 
+                "COOMBS INDIRECTO": "C$ 350", "CPK MB": "C$ 1000", "CPK TOTAL": "C$ 1000"
+            }
+        };
+
+        const precios = {};
+        for (let cat in dbCategorizada) {
+            for (let exam in dbCategorizada[cat]) {
+                precios[exam] = dbCategorizada[cat][exam];
+            }
+        }
+
+        function populateCatalog() {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = '';
+            for (let cat in dbCategorizada) {
+                let catHtml = `<div class="catalog-category"><h4>${cat}</h4>`;
+                for (let exam in dbCategorizada[cat]) {
+                    catHtml += `<div class="catalog-item"><span>${exam}</span> <strong>${dbCategorizada[cat][exam]}</strong></div>`;
+                }
+                catHtml += `</div>`;
+                grid.innerHTML += catHtml;
+            }
+        }
+
+        function openCatalogModal() {
+            populateCatalog();
+            document.getElementById('catalogModal').style.display = 'flex';
+            // Cerrar menú móvil si está abierto
+            if (navLinks.classList.contains('nav-active')) {
+                toggleMenu();
+            }
+        }
+
+        function closeCatalogModal() {
+            document.getElementById('catalogModal').style.display = 'none';
+        }
+
+        // --- Lógica del Chatbot ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatBtn = document.getElementById('chatBtn');
+            const closeChatBtn = document.getElementById('closeChatBtn');
+            const chatWindow = document.getElementById('chatWindow');
+            const chatBody = document.getElementById('chatBody');
+            const userInput = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const chatTooltip = document.getElementById('chatTooltip');
+
+            let chatInitialized = false;
+
+            chatBtn.addEventListener('click', () => {
+                chatWindow.style.display = 'flex';
+                chatTooltip.style.display = 'none';
+                
+                if(!chatInitialized) {
+                    showWelcomeMessage();
+                    chatInitialized = true;
+                }
+            });
+            closeChatBtn.addEventListener('click', () => chatWindow.style.display = 'none');
+
+            const sinonimos = {
+                "PERFILES": ["PERFIL HEPATICO", "PERFIL LIPIDICO", "PERFIL TIROIDEO", "PERFIL RENAL", "PERFIL REUMATICO"],
+                "CULTIVOS": ["UROCULTIVO", "COPROCULTIVO", "EXUDADO FARINGEO", "EXUDADO VAGINAL", "CULTIVO DE SECRECION", "ESPERMOCULTIVO"],
+                "COPROLOGIA": ["EGH", "CITOLOGIA FECAL", "HELICO. PYLORI EN HECES", "AZUCARES REDUCTORES", "SANGRE OCULTA EN HECES", "COPROCULTIVO"],
+                "HECES": ["EGH", "CITOLOGIA FECAL", "HELICO. PYLORI EN HECES", "AZUCARES REDUCTORES", "SANGRE OCULTA EN HECES", "COPROCULTIVO"],
+                "UROLOGIA": ["EGO", "PROTEINAS EN O. 24 HRS", "PROTEINAS EN O. ESP.", "MICROALBUMINURIA", "UROGRAVINDEX", "RELACIÓN ALB/CREA", "UROCULTIVO"],
+                "ORINA": ["EGO", "PROTEINAS EN O. 24 HRS", "PROTEINAS EN O. ESP.", "MICROALBUMINURIA", "UROGRAVINDEX", "RELACIÓN ALB/CREA", "UROCULTIVO"],
+                "HEMATOLOGIA": ["BHC", "HEMATOCRITO", "PLAQUETAS", "GOTA GRUESA", "TC", "TS", "TP", "TPT", "FIBRIONOGENO", "INR", "VSG", "RETICULOCITOS", "TIPO Y RH", "EXTENDIDO PERIFERICO", "CONSTANTES CORP."],
+                "SANGRE": ["BHC", "TIPO Y RH", "GLICEMIA", "COLESTEROL", "TRIGLICERIDOS", "CREATININA", "ACIDO URICO"],
+                "QUIMICA": ["GLICEMIA", "CREATININA", "ACIDO URICO", "COLESTEROL", "TRIGLICERIDOS", "UREA", "BUN"],
+                "AZUCAR": ["GLICEMIA", "HBA1C", "TOLERANCIA ORAL A LA GLUC."],
+                "DIABETES": ["GLICEMIA", "HBA1C"],
+                "GRASA": ["PERFIL LIPIDICO", "COLESTEROL", "TRIGLICERIDOS"],
+                "HIGADO": ["PERFIL HEPATICO", "TGO", "TGP", "BILIRRUBINAS", "FOSFATASA ALCALINA", "GGT"],
+                "RIÑON": ["PERFIL RENAL", "CREATININA", "UREA", "BUN", "ACIDO URICO", "MICROALBUMINURIA"],
+                "CORAZON": ["TROPONINA", "CPK MB", "CPK TOTAL", "PERFIL LIPIDICO"],
+                "TIROIDES": ["PERFIL TIROIDEO", "TSH", "T3", "T4"],
+                "ESTOMAGO": ["H. PYLORI EN SANGRE", "HELICO. PYLORI EN HECES", "EGH"],
+                "EMBARAZO": ["UROGRAVINDEX", "BETA HCG", "HEMOGRAVIDEX"],
+                "PROSTATA": ["PSA", "UROCULTIVO", "EGO"],
+                "CANCER": ["PSA", "CA 125", "CA 19.9", "CA 15.3", "CEA", "ALFAFETOPROTEINA"],
+                "MARCADORES TUMORALES": ["PSA", "CA 125", "CA 19.9", "CA 15.3", "CEA", "ALFAFETOPROTEINA"],
+                "ENFERMEDAD VENEREA": ["VIH", "VDRL"],
+                "REUMATISMO": ["PERFIL REUMATICO", "ACIDO URICO", "PCR", "ASLO", "FR"],
+                "DROGAS": ["COCAINA", "MARIHUANA"]
+            };
+
+            const removeAccents = (str) => {
+                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            };
+
+            const showWelcomeMessage = () => {
+                const welcomeHtml = `
+                    <div class="message bot-msg">
+                        ¡Hola! 👋 Soy el asistente virtual del Laboratorio Don Leo. <br><br>
+                        Busca por examen, por <strong>categoría</strong>, o pídeme la lista de <strong>precios</strong>.
+                        <div class="chat-options">
+                            <button class="chat-option-btn" onclick="document.getElementById('userInput').value='Precios'; document.getElementById('sendBtn').click();">📋 Ver Todos los Precios</button>
+                            <button class="chat-option-btn" onclick="document.getElementById('userInput').value='Horario'; document.getElementById('sendBtn').click();">🕒 Ver Horario</button>
+                            <button class="chat-option-btn" onclick="document.getElementById('userInput').value='Perfiles'; document.getElementById('sendBtn').click();">🩺 Perfiles</button>
+                        </div>
+                    </div>
+                `;
+                chatBody.insertAdjacentHTML('beforeend', welcomeHtml);
+            };
+
+            const getBotResponse = (input) => {
+                const cleanInput = removeAccents(input).toUpperCase();
+                
+                if (cleanInput.includes("HORARIO") || cleanInput.includes("HORA") || cleanInput.includes("ABREN") || cleanInput.includes("CIERRAN")) {
+                    return `🕒 <strong>Nuestro horario de atención es:</strong><br><br>
+                            • <strong>Lunes a Viernes:</strong> 7:30 am a 2:30 pm<br>
+                            • <strong>Sábados:</strong> 7:30 am a 12:30 pm<br>
+                            • <strong>Domingos:</strong> Cerrado<br><br>
+                            ¡Te esperamos!`;
+                }
+
+                if (cleanInput === "PRECIO" || cleanInput === "PRECIOS" || cleanInput === "CATALOGO" || cleanInput === "LISTA") {
+                    return `¡Por supuesto! Como ofrecemos más de 80 exámenes, he preparado un documento bien organizado para que sea fácil de leer.<br><br>
+                            <button onclick="openCatalogModal()" style="background:var(--secondary-color); color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer; width:100%; font-weight:bold; margin-top:5px; transition:0.3s;">
+                                📄 Abrir Catálogo de Precios
+                            </button>`;
+                }
+
+                if (cleanInput === "HOLA" || cleanInput === "BUENOS DIAS" || cleanInput === "BUENAS") {
+                    return "¡Hola! ¿En qué te puedo ayudar? Puedes consultar nuestros 'Precios', 'Horarios' o buscar un examen específico.";
+                }
+
+                let foundExams = new Set(); 
+
+                for (let keyword in sinonimos) {
+                    const regex = new RegExp("\\b" + keyword + "\\b", "i");
+                    if (regex.test(cleanInput)) {
+                        sinonimos[keyword].forEach(exam => foundExams.add(exam));
+                    }
+                }
+
+                for (let exam in precios) {
+                    if (cleanInput.includes(exam) || exam.includes(cleanInput)) {
+                        if (cleanInput.length > 2) { 
+                            foundExams.add(exam);
+                        }
+                    }
+                }
+
+                if (foundExams.size > 0) {
+                    let responseText = "Aquí tienes los exámenes que coinciden con tu búsqueda:<br><br>";
+                    Array.from(foundExams).forEach(exam => {
+                        responseText += `<strong>• ${exam}:</strong> ${precios[exam]}<br>`;
+                    });
+                    responseText += `<br><small><i>Para dudas precisas, escríbenos al <a href="https://wa.me/50588845355" target="_blank" style="color:var(--primary-color); font-weight:bold;">WhatsApp</a>.</i></small>`;
+                    return responseText;
+                }
+
+                return `Hmm... 😅 No logré identificar esa palabra o categoría en mi sistema. <br><br>
+                        Puedes intentar buscando: <strong>Sangre, Orina, Perfiles, Horario</strong> o escribir la palabra <strong>Precios</strong> para ver la lista completa.`;
+            };
+
+            const sendMessage = () => {
+                const text = userInput.value.trim();
+                if (text === "") return;
+
+                const userDiv = document.createElement("div");
+                userDiv.className = "message user-msg";
+                userDiv.textContent = text;
+                chatBody.appendChild(userDiv);
+                
+                userInput.value = "";
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+                setTimeout(() => {
+                    const botDiv = document.createElement("div");
+                    botDiv.className = "message bot-msg";
+                    botDiv.innerHTML = getBotResponse(text);
+                    chatBody.appendChild(botDiv);
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }, 600);
+            };
+
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+        });
+    </script>
+</body>
+</html>
