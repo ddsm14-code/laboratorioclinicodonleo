@@ -232,7 +232,6 @@
         .fundador-bio h2 { color: var(--primary-color); font-size: 2rem; margin-bottom: 0.5rem; text-align: center; }
         .fundador-bio h3 { color: var(--secondary-color); font-size: 1.4rem; text-align: center; margin-bottom: 1rem; }
         
-        /* Estilo para la foto de perfil del fundador */
         .fundador-profile-img {
             display: flex;
             justify-content: center;
@@ -335,6 +334,20 @@
         .footer-column { flex: 1 1 250px; }
         .footer-column h4 { color: var(--secondary-color); margin-bottom: 1rem; font-size: 1.2rem; text-transform: uppercase; }
         .footer-column p { margin-bottom: 0.5rem; font-size: 1.05rem; }
+        
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .footer-link:hover { color: var(--white); }
+        
         .copyright { text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #333; font-size: 0.9rem; color: #888; }
 
         /* ----- CHATBOT WIDGET ----- */
@@ -356,10 +369,24 @@
         .chat-footer input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
         .chat-footer button { background-color: var(--primary-color); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 8px; cursor: pointer; }
 
+        /* Botones de opciones del chat */
+        .chat-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .chat-option-btn { background-color: #e0f2f1; border: 1px solid var(--secondary-color); color: var(--secondary-color); padding: 8px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 600; text-align: center; }
+        
+        /* Modificadores para botones especiales en el chat */
+        .chat-option-btn.whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            border-color: #25D366;
+            text-decoration: none;
+            display: inline-block;
+        }
+
         /* ----- MODAL CATÁLOGO PRECIOS ----- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center; padding: 15px; }
         .modal-content { background: white; width: 100%; max-width: 800px; max-height: 90vh; border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; }
         .modal-header { background: var(--primary-color); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 1.2rem; }
         .modal-body { padding: 15px; overflow-y: auto; flex: 1; background: white; }
         .modal-footer { padding: 15px; background: #f1f1f1; text-align: center; border-top: 1px solid #ddd; }
         .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
@@ -438,7 +465,7 @@
                 <div class="historia-content">
                     <h2 class="historia-section-title">Nuestra Historia</h2>
                     <h3>Un sueño hecho realidad al servicio de su salud</h3>
-                    <p>Laboratorio Clínico Don Leo nace en Nandaime con el firme compromiso de elevating el estándar de los diagnósticos médicos en nuestra comunidad. Fundado por el Lic. Leonardo José Marcenaro Gutierrez, este centro surge para llenar la necesidad de un servicio de bioanálisis que combine la calidez humana con la precisión tecnológica. Desde el primer día, nos hemos enfocado en que cada paciente reciba una atención digna y resultados en los que su médico pueda confiar plenamente.</p>
+                    <p>Laboratorio Clínico Don Leo nace en Nandaime con el firme compromiso de elevar el estándar de los diagnósticos médicos en nuestra comunidad. Fundado por el Lic. Leonardo José Marcenaro Gutierrez, este centro surge para llenar la necesidad de un servicio de bioanálisis que combine la calidez humana con la precisión tecnológica. Desde el primer día, nos hemos enfocado en que cada paciente reciba una atención digna y resultados en los que su médico pueda confiar plenamente.</p>
                 </div>
 
                 <div class="historia-main-image">
@@ -490,9 +517,27 @@
 
     <footer>
         <div class="footer-content">
-            <div class="footer-column"><h4>📍 Ubicación</h4><p>Del Palí de Nandaime, 75 varas al Este.</p></div>
-            <div class="footer-column"><h4>🕒 Horario</h4><p>L-V: 7:30 am - 2:30 pm<br>Sáb: 7:30 am - 12:30 pm</p></div>
-            <div class="footer-column"><h4>📞 Contacto</h4><p>+505 888 45 355<br>leomarce66@yahoo.es</p></div>
+            <div class="footer-column">
+                <h4>📍 Ubicación</h4>
+                <p>Del Palí de Nandaime, 75 varas al Este.</p>
+                <p>Granada, Nicaragua.</p>
+                <a href="https://share.google/9vUGHdJO8KlKk1VPr" target="_blank" class="footer-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
+                    Abrir en Google Maps
+                </a>
+            </div>
+            <div class="footer-column">
+                <h4>🕒 Horario</h4>
+                <p>L-V: 7:30 am - 2:30 pm<br>Sáb: 7:30 am - 12:30 pm</p>
+            </div>
+            <div class="footer-column">
+                <h4>📞 Contacto</h4>
+                <p>+505 888 45 355<br>leomarce66@yahoo.es</p>
+                <a href="https://www.facebook.com/share/17XkSLaA8p/" target="_blank" class="footer-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+                    Síguenos en Facebook
+                </a>
+            </div>
         </div>
         <p class="copyright">© 2026 Laboratorio Clínico Don Leo. Todos los derechos reservados.</p>
     </footer>
@@ -551,6 +596,7 @@
         function openCatalogModal() { populateCatalog(); document.getElementById('catalogModal').style.display = 'flex'; }
         function closeCatalogModal() { document.getElementById('catalogModal').style.display = 'none'; }
 
+        // --- LÓGICA DEL CHATBOT MEJORADA CON BOTONES ---
         document.addEventListener('DOMContentLoaded', () => {
             const chatBtn = document.getElementById('chatBtn');
             const chatWindow = document.getElementById('chatWindow');
@@ -560,9 +606,23 @@
             let chatInitialized = false;
 
             chatBtn.addEventListener('click', () => { 
-                chatWindow.style.display = 'flex'; document.getElementById('chatTooltip').style.display = 'none';
+                chatWindow.style.display = 'flex'; 
+                document.getElementById('chatTooltip').style.display = 'none';
+                
                 if(!chatInitialized) {
-                    chatBody.innerHTML = '<div class="message bot-msg">¡Hola! 👋 Soy el asistente virtual del Laboratorio Don Leo. ¿En qué puedo ayudarte?</div>';
+                    // Inicialización con botones de opciones rápidas
+                    const welcomeHtml = `
+                        <div class="message bot-msg">
+                            ¡Hola! 👋 Soy el asistente virtual del Laboratorio Don Leo. Elige una opción rápida o escribe lo que buscas:
+                            <div class="chat-options">
+                                <button class="chat-option-btn" onclick="openCatalogModal()">📋 Ver Precios</button>
+                                <button class="chat-option-btn" onclick="document.getElementById('userInput').value='Horario'; document.getElementById('sendBtn').click();">🕒 Ver Horario</button>
+                                <button class="chat-option-btn" onclick="document.getElementById('userInput').value='Ubicación'; document.getElementById('sendBtn').click();">📍 Ubicación</button>
+                                <a href="https://wa.me/50588845355" target="_blank" class="chat-option-btn whatsapp-btn">💬 Hablar con alguien</a>
+                            </div>
+                        </div>
+                    `;
+                    chatBody.innerHTML = welcomeHtml;
                     chatInitialized = true;
                 }
             });
@@ -582,10 +642,39 @@
             }
 
             function getResponse(input) {
-                const clean = input.toUpperCase();
-                if (clean.includes("PRECIO")) return '¡Claro! Haz clic aquí para ver todos: <br><button onclick="openCatalogModal()" style="background:var(--secondary-color); color:white; border:none; padding:8px; border-radius:5px; margin-top:5px; cursor:pointer;">Ver Catálogo</button>';
-                if (clean.includes("HORARIO")) return '🕒 Horario: L-V (7:30 am - 2:30 pm) | Sáb (7:30 am - 12:30 pm).';
-                return 'No encontré una respuesta específica. ¿Podrías intentar con otra palabra o escribir al WhatsApp?';
+                const clean = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+                
+                if (clean.includes("AYUDA") || clean.includes("ASISTENCIA") || clean.includes("PERSONA") || clean.includes("HUMANO") || clean.includes("HABLAR")) {
+                    return `Entiendo. Si necesitas hablar con alguien de nuestro equipo para que te ayude, haz clic en este botón:<br><br>
+                            <a href="https://wa.me/50588845355" target="_blank" style="background:#25D366; color:white; padding:10px 15px; border-radius:5px; text-decoration:none; display:inline-block; font-weight:bold; width:100%; text-align:center;">
+                                💬 Hablar por WhatsApp
+                            </a>`;
+                }
+
+                if (clean.includes("PRECIO") || clean.includes("CATALOGO") || clean.includes("LISTA")) {
+                    return '¡Claro! Haz clic aquí para ver todos los precios:<br><button onclick="openCatalogModal()" style="background:var(--secondary-color); color:white; border:none; padding:8px; border-radius:5px; margin-top:5px; cursor:pointer;">Ver Catálogo de Precios</button>';
+                }
+                
+                if (clean.includes("HORARIO") || clean.includes("HORA")) {
+                    return '🕒 <strong>Horario de atención:</strong><br>• Lunes a Viernes: 7:30 am - 2:30 pm<br>• Sábados: 7:30 am - 12:30 pm<br>• Domingos: Cerrado';
+                }
+
+                if (clean.includes("UBICACION") || clean.includes("DIRECCION") || clean.includes("DONDE") || clean.includes("MAPA") || clean.includes("LLEGAR")) {
+                    return `📍 <strong>Nuestra ubicación:</strong><br>Del Palí de Nandaime, 75 varas al Este. Granada, Nicaragua.<br><br><a href="https://share.google/9vUGHdJO8KlKk1VPr" target="_blank" style="background:var(--secondary-color); color:white; padding:8px 12px; border-radius:5px; margin-top:10px; text-decoration:none; display:inline-block; font-weight:bold;">🗺️ Ver en Google Maps</a>`;
+                }
+
+                let foundExams = [];
+                for (let exam in precios) {
+                    if (clean.includes(exam) || exam.includes(clean)) {
+                        if (clean.length > 2) foundExams.push(`<strong>• ${exam}:</strong> ${precios[exam]}`);
+                    }
+                }
+                
+                if (foundExams.length > 0) {
+                    return `Aquí tienes los precios que encontré:<br><br>${foundExams.join('<br>')}`;
+                }
+
+                return 'No encontré una respuesta específica. ¿Podrías intentar escribiendo "Precios" para ver la lista completa o tocar el botón de WhatsApp para que te ayudemos directamente?';
             }
         });
     </script>
