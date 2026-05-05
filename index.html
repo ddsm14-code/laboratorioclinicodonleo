@@ -347,6 +347,15 @@
             transition: color 0.3s;
         }
         .footer-link:hover { color: var(--white); }
+
+        .contact-link {
+            color: #f1f1f1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-link:hover {
+            color: var(--secondary-color);
+        }
         
         .copyright { text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #333; font-size: 0.9rem; color: #888; }
 
@@ -370,17 +379,14 @@
         .chat-footer button { background-color: var(--primary-color); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 8px; cursor: pointer; }
 
         /* Botones de opciones del chat */
-        .chat-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .chat-options { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
         .chat-option-btn { background-color: #e0f2f1; border: 1px solid var(--secondary-color); color: var(--secondary-color); padding: 8px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 600; text-align: center; }
         
-        /* Modificadores para botones especiales en el chat */
-        .chat-option-btn.whatsapp-btn {
-            background-color: #25D366;
-            color: white;
-            border-color: #25D366;
-            text-decoration: none;
-            display: inline-block;
-        }
+        .chat-option-btn.whatsapp-btn { background-color: #25D366; color: white; border-color: #25D366; text-decoration: none; display: inline-block; }
+        .chat-option-btn.phone-btn { background-color: var(--primary-color); color: white; border-color: var(--primary-color); text-decoration: none; display: inline-block; }
+        
+        /* Estilos para los campos del formulario de cotización */
+        .chat-input-form { width: 100%; padding: 8px 10px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
 
         /* ----- MODAL CATÁLOGO PRECIOS ----- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center; padding: 15px; }
@@ -417,20 +423,20 @@
 
     <header>
         <nav class="navbar">
-            <div class="logo" onclick="showPage('inicio')">
+            <div class="logo" onclick="showpage('inicio')">
                 <img src="https://scontent.fmga3-2.fna.fbcdn.net/v/t39.30808-6/683032138_122131613115081530_8572606612400972667_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=13d280&_nc_ohc=Oq7tWs3WA-wQ7kNvwGDCLR1&_nc_oc=AdqUV55mFoM1g9NYF9KSA1fPvk_vH52XqvGOkO309YCN4w3i0Nlk9IqAK9GHiO_0xONL6vZRYjSyS2EdmdyveOt8&_nc_zt=23&_nc_ht=scontent.fmga3-2.fna&_nc_gid=a_SgPgq4Q5jjLgA7F4cndA&_nc_ss=7b2a8&oh=00_Af0sPBIR_O8jcBu_MKwYgxu385kPhssR1U7o8emagGlXmg&oe=69F718F2" alt="Logo Laboratorio Clínico Don Leo" class="logo-img">
             </div>
             
-            <div class="menu-toggle" id="mobile-menu" onclick="toggleMenu()">
+            <div class="menu-toggle" id="mobile-menu" onclick="togglemenu()">
                 <span></span><span></span><span></span>
             </div>
 
             <ul class="nav-links" id="nav-links">
-                <li onclick="showPage('inicio')" id="nav-inicio" class="active-link">Inicio</li>
-                <li onclick="showPage('historia')" id="nav-historia">Historia</li>
-                <li onclick="showPage('servicios')" id="nav-servicios">Servicios</li>
-                <li onclick="showPage('faq')" id="nav-faq">Preguntas Frecuentes</li>
-                <li onclick="openCatalogModal()">Precios</li>
+                <li onclick="showpage('inicio')" id="nav-inicio" class="active-link">Inicio</li>
+                <li onclick="showpage('historia')" id="nav-historia">Historia</li>
+                <li onclick="showpage('servicios')" id="nav-servicios">Servicios</li>
+                <li onclick="showpage('faq')" id="nav-faq">Preguntas Frecuentes</li>
+                <li onclick="opencatalogmodal()">Precios</li>
             </ul>
         </nav>
     </header>
@@ -527,12 +533,20 @@
                 </a>
             </div>
             <div class="footer-column">
-                <h4>🕒 Horario</h4>
-                <p>L-V: 7:30 am - 2:30 pm<br>Sáb: 7:30 am - 12:30 pm</p>
+                <h4>🕒 Horario de Atención</h4>
+                <p><strong>Lunes a Viernes:</strong></p>
+                <p>7:30 am - 2:30 pm</p>
+                <p><strong>Sábado:</strong></p>
+                <p>7:30 am - 12:30 pm</p>
+                <p><strong>Domingo:</strong> Cerrado</p>
             </div>
             <div class="footer-column">
                 <h4>📞 Contacto</h4>
-                <p>+505 888 45 355<br>leomarce66@yahoo.es</p>
+                <p>
+                    <a href="https://wa.me/50588845355" target="_blank" class="contact-link">WhatsApp: +505 888 45 355</a><br>
+                    <a href="tel:25620246" class="contact-link">Teléfono: 2562-0246</a><br>
+                    <a href="mailto:leomarce66@yahoo.es" class="contact-link">leomarce66@yahoo.es</a>
+                </p>
                 <a href="https://www.facebook.com/share/17XkSLaA8p/" target="_blank" class="footer-link">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
                     Síguenos en Facebook
@@ -542,39 +556,48 @@
         <p class="copyright">© 2026 Laboratorio Clínico Don Leo. Todos los derechos reservados.</p>
     </footer>
 
-    <div class="modal-overlay" id="catalogModal">
+    <div class="modal-overlay" id="catalogmodal">
         <div class="modal-content">
-            <div class="modal-header"><h3>Catálogo de Precios</h3><button class="close-btn" onclick="closeCatalogModal()">✖</button></div>
-            <div class="modal-body"><div class="catalog-grid" id="catalogGrid"></div></div>
+            <div class="modal-header"><h3>Catálogo de Precios</h3><button class="close-btn" onclick="closecatalogmodal()">✖</button></div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2>Laboratorio Clínico Don Leo</h2>
+                    <p style="color: #666; font-size: 14px;">Catálogo Oficial de Exámenes y Precios</p>
+                    <p style="color: #666; font-size: 12px;">Del Palí de Nandaime, 75 varas al Este. | Tel: +505 888 45 355</p>
+                    <p style="color: #666; font-size: 12px;">Horario: Lunes a Viernes (7:30am - 2:30pm) | Sábado (7:30am - 12:30pm)</p>
+                    <hr style="margin-top: 10px; border: 0; border-top: 1px solid #ccc;">
+                </div>
+                <div class="catalog-grid" id="cataloggrid"></div>
+            </div>
             <div class="modal-footer"><button class="btn-primary" onclick="window.print()">🖨️ Guardar PDF</button></div>
         </div>
     </div>
 
     <div class="chatbot-container">
-        <div class="chat-tooltip" id="chatTooltip" onclick="document.getElementById('chatBtn').click()">¡Hola! Consulta precios aquí</div>
-        <button class="chat-btn" id="chatBtn">
+        <div class="chat-tooltip" id="chattooltip" onclick="document.getElementById('chatbtn').click()">¡Hola! Consulta precios aquí</div>
+        <button class="chat-btn" id="chatbtn">
             <svg width="40" height="40" viewBox="0 0 100 100"><rect x="5" y="10" width="90" height="80" rx="35" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/><rect x="15" y="25" width="70" height="50" rx="20" fill="#1a1a1a"/><path d="M 28 50 Q 36 36 44 50" fill="none" stroke="#00d2ff" stroke-width="6" stroke-linecap="round"/><path d="M 56 50 Q 64 36 72 50" fill="none" stroke="#00d2ff" stroke-width="6" stroke-linecap="round"/></svg>
         </button>
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header"><span>🤖 Asistente Don Leo</span><button class="close-btn" id="closeChatBtn">✖</button></div>
-            <div class="chat-body" id="chatBody"></div>
-            <div class="chat-footer"><input type="text" id="userInput" placeholder="Escribe aquí..."><button id="sendBtn">➤</button></div>
+        <div class="chat-window" id="chatwindow">
+            <div class="chat-header"><span>🤖 Asistente Don Leo</span><button class="close-btn" id="closechatbtn">✖</button></div>
+            <div class="chat-body" id="chatbody"></div>
+            <div class="chat-footer"><input type="text" id="userinput" placeholder="Escribe aquí..."><button id="sendbtn">➤</button></div>
         </div>
     </div>
 
     <script>
-        function toggleMenu() { document.getElementById('nav-links').classList.toggle('nav-active'); }
-        function showPage(pageId) {
+        function togglemenu() { document.getElementById('nav-links').classList.toggle('nav-active'); }
+        function showpage(pageid) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-links li').forEach(l => l.classList.remove('active-link'));
-            document.getElementById(pageId).classList.add('active');
-            const activeNav = document.getElementById('nav-' + pageId);
-            if(activeNav) activeNav.classList.add('active-link');
-            if (document.getElementById('nav-links').classList.contains('nav-active')) toggleMenu();
+            document.getElementById(pageid).classList.add('active');
+            const activenav = document.getElementById('nav-' + pageid);
+            if(activenav) activenav.classList.add('active-link');
+            if (document.getElementById('nav-links').classList.contains('nav-active')) togglemenu();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        const dbCategorizada = {
+        const dbcategorizada = {
             "QUÍMICA SANGUÍNEA": {"GLICEMIA": "C$ 90", "CREATININA": "C$ 130", "ACIDO URICO": "C$ 150", "COLESTEROL": "C$ 150", "TRIGLICERIDOS": "C$ 150", "LDH": "C$ 500", "UREA": "C$ 150", "BUN": "C$ 150", "SODIO": "C$ 250", "POTASIO": "C$ 250", "CALCIO": "C$ 250", "MAGNESIO": "C$ 250", "FOSFORO": "C$ 250", "CLORO": "C$ 250", "VDRL": "C$ 150", "VIH": "C$ 600", "TGO": "C$ 150", "TGP": "C$ 150", "GGT": "C$ 250", "BILIRRUBINAS": "C$ 350", "PCR": "C$ 300", "ASLO": "C$ 300", "FR": "C$ 300", "AMILASA": "C$ 500", "LIPASA": "C$ 500", "ALBUMINA": "C$ 450", "PROTEINAS T Y F": "C$ 600", "HEPATITIS A": "C$ 400", "HEPATITIS B": "C$ 400", "HEPATITIS C": "C$ 400", "FOSFATASA ALCALINA": "C$ 500", "HIERRO": "C$ 500", "FERRITINA": "C$ 500", "COLINESTERASA": "C$ 900", "HEMOGRAVIDEX": "C$ 130", "H. PYLORI EN SANGRE": "C$ 450"},
             "HEMATOLOGÍA": {"BHC": "C$ 130", "HEMATOCRITO": "C$ 100", "PLAQUETAS": "C$ 130", "GOTA GRUESA": "C$ 150", "TC": "C$ 130", "TS": "C$ 130", "TP": "C$ 150", "TPT": "C$ 150", "FIBRIONOGENO": "C$ 180", "INR": "C$ 180", "VSG": "C$ 150", "RETICULOCITOS": "C$ 200", "TIPO Y RH": "C$ 150", "EXTENDIDO PERIFERICO": "C$ 350", "CONSTANTES CORP.": "C$ 300"},
             "UROLOGÍA": {"EGO": "C$ 90", "PROTEINAS EN O. 24 HRS": "C$ 600", "PROTEINAS EN O. ESP.": "C$ 600", "MICROALBUMINURIA": "C$ 600", "UROGRAVINDEX": "C$ 130", "RELACIÓN ALB/CREA": "C$ 600"},
@@ -584,75 +607,114 @@
             "EXÁMENES ESPECIALES": {"ESPERMATOGRAMA": "C$ 700", "TOLERANCIA ORAL A LA GLUC.": "C$ 700", "HBA1C": "C$ 700", "PSA": "C$ 700", "T3": "C$ 600", "T4": "C$ 600", "TSH": "C$ 600", "ANA": "C$ 2500", "PROCALCITONINA": "C$ 2500", "CA 125": "C$ 2000", "CA 19.9": "C$ 2000", "CA 15.3": "C$ 2000", "CEA": "C$ 2500", "ALFAFETOPROTEINA": "C$ 1500", "COCAINA": "C$ 500", "MARIHUANA": "C$ 500", "BETA HCG": "C$ 1600", "TROPONINA": "C$ 1000", "PROLACTINA": "C$ 2500", "CITOMEGALOVIRUS": "C$ 1500", "COOMBS INDIRECTO": "C$ 350", "CPK MB": "C$ 1000", "CPK TOTAL": "C$ 1000"}
         };
 
-        const precios = {}; for (let cat in dbCategorizada) { for (let exam in dbCategorizada[cat]) { precios[exam] = dbCategorizada[cat][exam]; } }
-        function populateCatalog() {
-            const grid = document.getElementById('catalogGrid'); grid.innerHTML = '';
-            for (let cat in dbCategorizada) {
-                let catHtml = `<div class="catalog-category"><h4>${cat}</h4>`;
-                for (let exam in dbCategorizada[cat]) { catHtml += `<div class="catalog-item"><span>${exam}</span> <strong>${dbCategorizada[cat][exam]}</strong></div>`; }
-                grid.innerHTML += catHtml + `</div>`;
+        const precios = {}; for (let cat in dbcategorizada) { for (let exam in dbcategorizada[cat]) { precios[exam] = dbcategorizada[cat][exam]; } }
+        
+        function populatecatalog() {
+            const grid = document.getElementById('cataloggrid'); grid.innerHTML = '';
+            for (let cat in dbcategorizada) {
+                let cathtml = `<div class="catalog-category"><h4>${cat}</h4>`;
+                for (let exam in dbcategorizada[cat]) { cathtml += `<div class="catalog-item"><span>${exam}</span> <strong>${dbcategorizada[cat][exam]}</strong></div>`; }
+                grid.innerHTML += cathtml + `</div>`;
             }
         }
-        function openCatalogModal() { populateCatalog(); document.getElementById('catalogModal').style.display = 'flex'; }
-        function closeCatalogModal() { document.getElementById('catalogModal').style.display = 'none'; }
+        
+        function opencatalogmodal() { 
+            populatecatalog(); 
+            document.getElementById('catalogmodal').style.display = 'flex'; 
+        }
+        
+        function closecatalogmodal() { 
+            document.getElementById('catalogmodal').style.display = 'none'; 
+        }
 
-        // --- LÓGICA DEL CHATBOT MEJORADA CON BOTONES ---
+        // Función global para enviar cotización a WhatsApp desde el formulario del chat
+        window.enviarcotizacionwa = function() {
+            let nombre = document.getElementById('nombrecotizacion').value.trim();
+            let examenes = document.getElementById('examenescotizacion').value.trim();
+            
+            if (!nombre || !examenes) {
+                alert("Por favor, ingrese su nombre y los exámenes que desea cotizar.");
+                return;
+            }
+            
+            let mensaje = `Hola, mi nombre es ${nombre} y me gustaría cotizar los siguientes exámenes: ${examenes}.`;
+            let url = `https://wa.me/50588845355?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
-            const chatBtn = document.getElementById('chatBtn');
-            const chatWindow = document.getElementById('chatWindow');
-            const chatBody = document.getElementById('chatBody');
-            const userInput = document.getElementById('userInput');
-            const sendBtn = document.getElementById('sendBtn');
-            let chatInitialized = false;
+            const chatbtn = document.getElementById('chatbtn');
+            const chatwindow = document.getElementById('chatwindow');
+            const chatbody = document.getElementById('chatbody');
+            const userinput = document.getElementById('userinput');
+            const sendbtn = document.getElementById('sendbtn');
+            let chatinitialized = false;
 
-            chatBtn.addEventListener('click', () => { 
-                chatWindow.style.display = 'flex'; 
-                document.getElementById('chatTooltip').style.display = 'none';
+            chatbtn.addEventListener('click', () => { 
+                chatwindow.style.display = 'flex'; 
+                document.getElementById('chattooltip').style.display = 'none';
                 
-                if(!chatInitialized) {
-                    // Inicialización con botones de opciones rápidas
-                    const welcomeHtml = `
+                if(!chatinitialized) {
+                    const welcomehtml = `
                         <div class="message bot-msg">
                             ¡Hola! 👋 Soy el asistente virtual del Laboratorio Don Leo. Elige una opción rápida o escribe lo que buscas:
                             <div class="chat-options">
-                                <button class="chat-option-btn" onclick="openCatalogModal()">📋 Ver Precios</button>
-                                <button class="chat-option-btn" onclick="document.getElementById('userInput').value='Horario'; document.getElementById('sendBtn').click();">🕒 Ver Horario</button>
-                                <button class="chat-option-btn" onclick="document.getElementById('userInput').value='Ubicación'; document.getElementById('sendBtn').click();">📍 Ubicación</button>
-                                <a href="https://wa.me/50588845355" target="_blank" class="chat-option-btn whatsapp-btn">💬 Hablar con alguien</a>
+                                <button class="chat-option-btn" onclick="document.getElementById('userinput').value='Cotizar'; document.getElementById('sendbtn').click();">📝 Cotizar Exámenes</button>
+                                <button class="chat-option-btn" onclick="opencatalogmodal()">📋 Precios</button>
+                                <button class="chat-option-btn" onclick="document.getElementById('userinput').value='Horario'; document.getElementById('sendbtn').click();">🕒 Horario</button>
+                                <button class="chat-option-btn" onclick="document.getElementById('userinput').value='Preparación'; document.getElementById('sendbtn').click();">🩸 Preparación / Ayuno</button>
+                                <button class="chat-option-btn" onclick="document.getElementById('userinput').value='Ubicación'; document.getElementById('sendbtn').click();">📍 Ubicación</button>
+                                <a href="https://wa.me/50588845355" target="_blank" class="chat-option-btn whatsapp-btn">💬 WhatsApp</a>
+                                <a href="tel:25620246" class="chat-option-btn phone-btn">📞 Llamar: 2562-0246</a>
                             </div>
                         </div>
                     `;
-                    chatBody.innerHTML = welcomeHtml;
-                    chatInitialized = true;
+                    chatbody.innerHTML = welcomehtml;
+                    chatinitialized = true;
                 }
             });
-            document.getElementById('closeChatBtn').addEventListener('click', () => chatWindow.style.display = 'none');
+            
+            document.getElementById('closechatbtn').addEventListener('click', () => chatwindow.style.display = 'none');
 
-            sendBtn.addEventListener('click', sendMessage);
-            userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+            sendbtn.addEventListener('click', sendmessage);
+            userinput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendmessage(); });
 
-            function sendMessage() {
-                const text = userInput.value.trim(); if (!text) return;
-                const userDiv = document.createElement("div"); userDiv.className = "message user-msg"; userDiv.textContent = text;
-                chatBody.appendChild(userDiv); userInput.value = ""; chatBody.scrollTop = chatBody.scrollHeight;
+            function sendmessage() {
+                const text = userinput.value.trim(); if (!text) return;
+                const userdiv = document.createElement("div"); userdiv.className = "message user-msg"; userdiv.textContent = text;
+                chatbody.appendChild(userdiv); userinput.value = ""; chatbody.scrollTop = chatbody.scrollHeight;
                 setTimeout(() => {
-                    const botDiv = document.createElement("div"); botDiv.className = "message bot-msg";
-                    botDiv.innerHTML = getResponse(text); chatBody.appendChild(botDiv); chatBody.scrollTop = chatBody.scrollHeight;
+                    const botdiv = document.createElement("div"); botdiv.className = "message bot-msg";
+                    botdiv.innerHTML = getresponse(text); chatbody.appendChild(botdiv); chatbody.scrollTop = chatbody.scrollHeight;
                 }, 600);
             }
 
-            function getResponse(input) {
+            function getresponse(input) {
                 const clean = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
                 
+                // Lógica de formulario de cotización
+                if (clean.includes("COTIZAR") || clean.includes("COTIZACION") || clean.includes("PRESUPUESTO")) {
+                    return `Para agilizar su atención, por favor ingrese su nombre y los exámenes que desea cotizar. Le enviaremos esta información directamente a nuestro WhatsApp:<br><br>
+                            <input type="text" id="nombrecotizacion" class="chat-input-form" placeholder="Su Nombre">
+                            <input type="text" id="examenescotizacion" class="chat-input-form" placeholder="Exámenes a cotizar">
+                            <button onclick="enviarcotizacionwa()" style="background:#25D366; color:white; border:none; padding:8px; border-radius:5px; width:100%; cursor:pointer; font-weight:bold; margin-top:5px;">📲 Enviar a WhatsApp</button>`;
+                }
+
                 if (clean.includes("AYUDA") || clean.includes("ASISTENCIA") || clean.includes("PERSONA") || clean.includes("HUMANO") || clean.includes("HABLAR")) {
-                    return `Entiendo. Si necesitas hablar con alguien de nuestro equipo para que te ayude, haz clic en este botón:<br><br>
-                            <a href="https://wa.me/50588845355" target="_blank" style="background:#25D366; color:white; padding:10px 15px; border-radius:5px; text-decoration:none; display:inline-block; font-weight:bold; width:100%; text-align:center;">
-                                💬 Hablar por WhatsApp
-                            </a>`;
+                    return `Entiendo. Si necesitas ayuda directa, puedes tocar cualquiera de estos botones para comunicarte con nosotros de inmediato:<br><br>
+                            <a href="https://wa.me/50588845355" target="_blank" style="background:#25D366; color:white; padding:10px 15px; border-radius:5px; text-decoration:none; display:inline-block; font-weight:bold; width:100%; text-align:center; margin-bottom:8px;">💬 Hablar por WhatsApp</a>
+                            <a href="tel:25620246" style="background:var(--primary-color); color:white; padding:10px 15px; border-radius:5px; text-decoration:none; display:inline-block; font-weight:bold; width:100%; text-align:center;">📞 Llamar al 2562-0246</a>`;
+                }
+
+                if (clean.includes("AYUNO") || clean.includes("PREPARACION") || clean.includes("REQUISITO") || clean.includes("ASISTIR") || clean.includes("RECOMENDACION")) {
+                    return `🩸 <strong>Recomendaciones para sus exámenes:</strong><br><br>
+                            • <strong>Ayuno:</strong> Para la mayoría de los análisis de sangre (como glucosa, perfil lipídico, etc.), le recomendamos presentarse con <strong>12 horas de ayuno</strong>.<br>
+                            • <strong>Higiene personal:</strong> Por su comodidad y para asegurar la correcta toma de ciertas muestras, le sugerimos asistir con su aseo personal del día (bañado).<br><br>
+                            <em>Si tiene dudas sobre un examen específico, toque el botón de "Ayuda" para hablar con nosotros.</em>`;
                 }
 
                 if (clean.includes("PRECIO") || clean.includes("CATALOGO") || clean.includes("LISTA")) {
-                    return '¡Claro! Haz clic aquí para ver todos los precios:<br><button onclick="openCatalogModal()" style="background:var(--secondary-color); color:white; border:none; padding:8px; border-radius:5px; margin-top:5px; cursor:pointer;">Ver Catálogo de Precios</button>';
+                    return '¡Claro! Haz clic aquí para ver todos los precios:<br><button onclick="opencatalogmodal()" style="background:var(--secondary-color); color:white; border:none; padding:8px; border-radius:5px; margin-top:5px; cursor:pointer;">Ver Catálogo de Precios</button>';
                 }
                 
                 if (clean.includes("HORARIO") || clean.includes("HORA")) {
@@ -663,18 +725,18 @@
                     return `📍 <strong>Nuestra ubicación:</strong><br>Del Palí de Nandaime, 75 varas al Este. Granada, Nicaragua.<br><br><a href="https://share.google/9vUGHdJO8KlKk1VPr" target="_blank" style="background:var(--secondary-color); color:white; padding:8px 12px; border-radius:5px; margin-top:10px; text-decoration:none; display:inline-block; font-weight:bold;">🗺️ Ver en Google Maps</a>`;
                 }
 
-                let foundExams = [];
+                let foundexams = [];
                 for (let exam in precios) {
                     if (clean.includes(exam) || exam.includes(clean)) {
-                        if (clean.length > 2) foundExams.push(`<strong>• ${exam}:</strong> ${precios[exam]}`);
+                        if (clean.length > 2) foundexams.push(`<strong>• ${exam}:</strong> ${precios[exam]}`);
                     }
                 }
                 
-                if (foundExams.length > 0) {
-                    return `Aquí tienes los precios que encontré:<br><br>${foundExams.join('<br>')}`;
+                if (foundexams.length > 0) {
+                    return `Aquí tienes los precios que encontré:<br><br>${foundexams.join('<br>')}`;
                 }
 
-                return 'No encontré una respuesta específica. ¿Podrías intentar escribiendo "Precios" para ver la lista completa o tocar el botón de WhatsApp para que te ayudemos directamente?';
+                return 'No encontré una respuesta específica. ¿Podrías intentar escribiendo "Cotizar" para enviar tu consulta o tocar el botón de "WhatsApp" / "Llamar" para que te atendamos en persona?';
             }
         });
     </script>
