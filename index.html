@@ -500,6 +500,372 @@
       .search-modal{margin:0;max-height:92dvh}
     }
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  
+
+    /* ===== HARD MOBILE FIX: EXAMS VIEW ===== */
+    @media (max-width:720px){
+      #view-examenes,
+      #view-examenes .page-hero,
+      #view-examenes .page-body{
+        width:100%;
+        max-width:100vw;
+        overflow-x:clip;
+      }
+      #view-examenes .container{
+        width:calc(100% - 24px) !important;
+        max-width:calc(100vw - 24px) !important;
+        margin-left:auto;
+        margin-right:auto;
+        padding-left:0;
+        padding-right:0;
+        overflow-x:clip;
+      }
+      #view-examenes .exam-layout,
+      #view-examenes .exam-main,
+      #view-examenes .exam-search-panel,
+      #view-examenes .exam-search-row,
+      #view-examenes .exam-input-wrap,
+      #view-examenes .mobile-exam-filter,
+      #view-examenes .mobile-select-wrap,
+      #view-examenes #resultsWrap,
+      #view-examenes .exam-results,
+      #view-examenes .result-head{
+        width:100%;
+        max-width:100%;
+        min-width:0;
+        box-sizing:border-box;
+        overflow-x:clip;
+      }
+      #view-examenes *{
+        min-width:0;
+      }
+      #view-examenes .exam-search-panel{
+        padding:12px;
+      }
+      #view-examenes .exam-search-row{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+      }
+      #view-examenes .exam-input-wrap{
+        display:block;
+        overflow:hidden;
+      }
+      #view-examenes .exam-input{
+        display:block;
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        box-sizing:border-box;
+        padding-left:44px;
+        padding-right:42px;
+      }
+      #view-examenes .mobile-select-wrap{
+        overflow:hidden;
+      }
+      #view-examenes #mobileCategorySelect{
+        display:block;
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        box-sizing:border-box;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+      #view-examenes .result-head{
+        display:grid;
+        grid-template-columns:minmax(0,1fr) auto;
+        align-items:center;
+        gap:8px;
+      }
+      #view-examenes .result-head strong{
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+      }
+      #view-examenes .result-head span{
+        max-width:92px;
+        text-align:right;
+        white-space:normal;
+        overflow-wrap:anywhere;
+      }
+      #view-examenes .exam-results{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+      }
+      #view-examenes .exam-card{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        overflow:hidden;
+        padding:12px;
+      }
+      #view-examenes .exam-card > div{
+        flex:1 1 auto;
+        width:0;
+        min-width:0;
+        max-width:100%;
+        overflow:hidden;
+      }
+      #view-examenes .exam-card h4,
+      #view-examenes .exam-card small{
+        width:100%;
+        max-width:100%;
+        white-space:normal;
+        overflow-wrap:anywhere;
+        word-break:break-word;
+      }
+      #view-examenes .exam-card .price{
+        flex:0 0 auto;
+        max-width:86px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+      #view-examenes .empty{
+        width:100%;
+        max-width:100%;
+        overflow-wrap:anywhere;
+      }
+    }
+    @media (max-width:420px){
+      #view-examenes .container{
+        width:calc(100% - 20px) !important;
+        max-width:calc(100vw - 20px) !important;
+      }
+      #view-examenes .result-head{
+        grid-template-columns:1fr;
+        gap:2px;
+      }
+      #view-examenes .result-head strong{
+        white-space:normal;
+        overflow-wrap:anywhere;
+      }
+      #view-examenes .result-head span{
+        max-width:100%;
+        text-align:left;
+      }
+      #view-examenes .exam-card{
+        align-items:flex-start;
+      }
+      #view-examenes .exam-card .price{
+        max-width:78px;
+        font-size:.74rem;
+        padding:5px 7px;
+      }
+    }
+
+  
+
+    /* ===== DEDICATED MOBILE EXAMS APP ===== */
+    .mobile-exams-app{display:none}
+    @media (max-width:720px){
+      #view-examenes .exam-layout{display:none !important}
+      #view-examenes .mobile-exams-app{
+        display:block;
+        width:calc(100% - 24px) !important;
+        max-width:calc(100vw - 24px) !important;
+        margin:0 auto;
+        overflow:hidden;
+        contain:inline-size;
+      }
+      #view-examenes .mobile-exams-app,
+      #view-examenes .mobile-exams-app *{box-sizing:border-box;min-width:0}
+      .mobile-exams-card{
+        width:100%;
+        max-width:100%;
+        overflow:hidden;
+        background:#fff;
+        border:1px solid var(--line);
+        border-radius:18px;
+        padding:14px;
+        box-shadow:var(--shadow-sm);
+      }
+      .mobile-exams-label{
+        display:block;
+        width:100%;
+        color:var(--navy);
+        font-size:.78rem;
+        font-weight:900;
+        margin:0 0 7px;
+      }
+      .mobile-category-label{margin-top:13px}
+      .mobile-exams-searchbox,.mobile-exams-selectbox{
+        position:relative;
+        display:block;
+        width:100%;
+        max-width:100%;
+        overflow:hidden;
+      }
+      .mobile-exams-searchbox svg{
+        position:absolute;
+        z-index:2;
+        left:14px;
+        top:50%;
+        transform:translateY(-50%);
+        color:#71818d;
+        pointer-events:none;
+      }
+      #mobileExamSearchInput,
+      #mobileExamCategory{
+        display:block;
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        height:50px;
+        margin:0;
+        border:1px solid var(--line);
+        border-radius:13px;
+        background:#f9fcfd;
+        color:#293b48;
+        font-size:16px;
+        outline:0;
+      }
+      #mobileExamSearchInput{
+        padding:0 13px 0 43px;
+        appearance:none;
+        -webkit-appearance:none;
+      }
+      #mobileExamCategory{
+        appearance:none;
+        -webkit-appearance:none;
+        padding:0 42px 0 13px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        font-weight:750;
+      }
+      .mobile-exams-selectbox span{
+        position:absolute;
+        right:14px;
+        top:50%;
+        transform:translateY(-55%);
+        color:var(--blue);
+        font-weight:900;
+        pointer-events:none;
+      }
+      #mobileExamSearchInput:focus,#mobileExamCategory:focus{
+        border-color:#83bfdc;
+        background:#fff;
+        box-shadow:0 0 0 4px rgba(10,110,181,.08);
+      }
+      .mobile-exams-summary{
+        width:100%;
+        max-width:100%;
+        margin:14px 0 8px;
+        color:var(--muted);
+        font-size:.78rem;
+        line-height:1.4;
+        overflow-wrap:anywhere;
+      }
+      .mobile-exams-list{
+        display:flex;
+        flex-direction:column;
+        width:100%;
+        max-width:100%;
+        gap:8px;
+        overflow:hidden;
+      }
+      .mobile-exam-item{
+        display:block;
+        width:100%;
+        max-width:100%;
+        overflow:hidden;
+        background:#fff;
+        border:1px solid var(--line);
+        border-radius:14px;
+        padding:12px;
+      }
+      .mobile-exam-item-top{
+        display:flex;
+        width:100%;
+        max-width:100%;
+        align-items:flex-start;
+        justify-content:space-between;
+        gap:8px;
+        overflow:hidden;
+      }
+      .mobile-exam-item-name{
+        flex:1 1 auto;
+        width:0;
+        max-width:100%;
+        color:#293b48;
+        font-size:.87rem;
+        font-weight:850;
+        line-height:1.28;
+        white-space:normal;
+        overflow-wrap:anywhere;
+        word-break:break-word;
+      }
+      .mobile-exam-item-price{
+        flex:0 0 auto;
+        max-width:84px;
+        border-radius:999px;
+        padding:5px 8px;
+        background:var(--mint);
+        color:var(--teal-dark);
+        font-size:.75rem;
+        font-weight:900;
+        line-height:1.2;
+        white-space:nowrap;
+      }
+      .mobile-exam-item-category{
+        display:block;
+        width:100%;
+        margin-top:4px;
+        color:var(--muted);
+        font-size:.69rem;
+        line-height:1.25;
+        overflow-wrap:anywhere;
+      }
+      .mobile-exams-empty{
+        width:100%;
+        max-width:100%;
+        background:#fff;
+        border:1px dashed #bfd0da;
+        border-radius:15px;
+        padding:24px 14px;
+        text-align:center;
+        color:var(--muted);
+        font-size:.84rem;
+        overflow-wrap:anywhere;
+      }
+      .mobile-exams-wa{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        width:100%;
+        max-width:100%;
+        min-height:48px;
+        margin-top:12px;
+        padding:10px 12px;
+        border-radius:14px;
+        background:#25D366;
+        color:#fff;
+        text-decoration:none;
+        text-align:center;
+        font-size:.78rem;
+        font-weight:900;
+        line-height:1.25;
+        overflow-wrap:anywhere;
+      }
+    }
+    @media (max-width:420px){
+      #view-examenes .mobile-exams-app{
+        width:calc(100% - 20px) !important;
+        max-width:calc(100vw - 20px) !important;
+      }
+      .mobile-exams-card{padding:12px}
+      .mobile-exam-item{padding:11px}
+      .mobile-exam-item-price{max-width:76px;font-size:.71rem;padding:5px 7px}
+    }
+
   </style>
 </head>
 <body>
@@ -622,6 +988,24 @@
         </div>
       </div>
       <div class="page-body">
+        <div class="container mobile-exams-app" id="mobileExamsApp">
+          <div class="mobile-exams-card">
+            <label class="mobile-exams-label" for="mobileExamSearchInput">Buscar examen</label>
+            <div class="mobile-exams-searchbox">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+              <input id="mobileExamSearchInput" type="search" autocomplete="off" inputmode="search" placeholder="Ej. BHC, TSH, glucosa..." aria-label="Buscar examen" />
+            </div>
+            <label class="mobile-exams-label mobile-category-label" for="mobileExamCategory">Área del laboratorio</label>
+            <div class="mobile-exams-selectbox">
+              <select id="mobileExamCategory" aria-label="Seleccionar área del laboratorio"></select>
+              <span aria-hidden="true">⌄</span>
+            </div>
+          </div>
+          <div class="mobile-exams-summary" id="mobileExamSummary">Selecciona un área o escribe el nombre de un examen.</div>
+          <div class="mobile-exams-list" id="mobileExamList"></div>
+          <a class="mobile-exams-wa" href="https://wa.me/50588845355?text=Hola%2C%20quiero%20consultar%20un%20examen." target="_blank" rel="noopener">💬 ¿No encuentras tu examen? Pregúntanos por WhatsApp</a>
+        </div>
+
         <div class="container exam-layout">
           <aside class="exam-sidebar">
             <h3>Filtrar por categoría</h3>
@@ -954,9 +1338,12 @@
       showView('examenes');
       examSearch.value=exam;
       activeCategory='ALL';
+      if(mobileExamSearchInput) mobileExamSearchInput.value=exam;
+      if(mobileExamCategory) mobileExamCategory.value='ALL';
       renderExamPage();
+      renderMobileExamPage();
       closeSearch();
-      setTimeout(()=>examSearch.focus(),80);
+      setTimeout(()=>{ if(window.matchMedia('(max-width:720px)').matches && mobileExamSearchInput) mobileExamSearchInput.focus(); else examSearch.focus(); },80);
     });
 
     // ----- Hero search -----
@@ -975,6 +1362,24 @@
     const resultTitle=document.getElementById('resultTitle');
     const resultMeta=document.getElementById('resultMeta');
     const mobileCategorySelect=document.getElementById('mobileCategorySelect');
+    const mobileExamSearchInput=document.getElementById('mobileExamSearchInput');
+    const mobileExamCategory=document.getElementById('mobileExamCategory');
+    const mobileExamList=document.getElementById('mobileExamList');
+    const mobileExamSummary=document.getElementById('mobileExamSummary');
+
+    function renderMobileExamPage(){
+      if(!mobileExamSearchInput || !mobileExamCategory || !mobileExamList) return;
+      const q=normalize(mobileExamSearchInput.value);
+      const cat=mobileExamCategory.value || 'ALL';
+      if(!q && cat==='ALL'){
+        mobileExamList.innerHTML='';
+        mobileExamSummary.textContent='Selecciona un área o escribe el nombre de un examen.';
+        return;
+      }
+      const items=allExams.filter(x=>(cat==='ALL'||x.category===cat) && (!q||normalize(x.name).includes(q)||normalize(x.category).includes(q)));
+      mobileExamSummary.textContent=`${items.length} examen${items.length===1?'':'es'} encontrado${items.length===1?'':'s'}`;
+      mobileExamList.innerHTML=items.length?items.map(x=>`<article class="mobile-exam-item"><div class="mobile-exam-item-top"><div class="mobile-exam-item-name">${escapeHtml(x.name)}</div><div class="mobile-exam-item-price">${escapeHtml(x.price)}</div></div><small class="mobile-exam-item-category">${escapeHtml(x.category)}</small></article>`).join(''):`<div class="mobile-exams-empty">No encontramos coincidencias. Prueba con otro nombre o cambia de área.</div>`;
+    }
 
     function initExamPage(){
       const cats=Object.keys(db);
@@ -982,7 +1387,9 @@
         cats.map(c=>`<button class="category-btn" data-category="${escapeAttr(c)}">${escapeHtml(c)} <span class="category-count">${Object.keys(db[c]).length}</span></button>`).join('');
       categoryCards.innerHTML=cats.map(c=>`<button class="category-card" data-category="${escapeAttr(c)}"><strong>${escapeHtml(c)}</strong><span>${Object.keys(db[c]).length} exámenes disponibles</span><b>Explorar →</b></button>`).join('');
       mobileCategorySelect.innerHTML=`<option value="ALL">Todas las áreas / explorar</option>`+cats.map(c=>`<option value="${escapeAttr(c)}">${escapeHtml(c)} (${Object.keys(db[c]).length})</option>`).join('');
+      if(mobileExamCategory) mobileExamCategory.innerHTML=`<option value="ALL">Selecciona un área</option>`+cats.map(c=>`<option value="${escapeAttr(c)}">${escapeHtml(c)}</option>`).join('');
       renderExamPage();
+      renderMobileExamPage();
     }
 
     function renderExamPage(){
@@ -1008,12 +1415,17 @@
     mobileCategorySelect.addEventListener('change',()=>{activeCategory=mobileCategorySelect.value;examSearch.value='';renderExamPage();});
     examSearch.addEventListener('input',()=>{activeCategory='ALL';renderExamPage();});
     clearSearch.addEventListener('click',()=>{examSearch.value='';activeCategory='ALL';renderExamPage();examSearch.focus();});
+    if(mobileExamSearchInput) mobileExamSearchInput.addEventListener('input',()=>{if(mobileExamCategory) mobileExamCategory.value='ALL';renderMobileExamPage();});
+    if(mobileExamCategory) mobileExamCategory.addEventListener('change',()=>{if(mobileExamSearchInput) mobileExamSearchInput.value='';renderMobileExamPage();});
 
     document.querySelectorAll('[data-category-jump]').forEach(b=>b.addEventListener('click',()=>{
       activeCategory=b.dataset.categoryJump;
       examSearch.value='';
+      if(mobileExamSearchInput) mobileExamSearchInput.value='';
+      if(mobileExamCategory) mobileExamCategory.value=activeCategory;
       showView('examenes');
       renderExamPage();
+      renderMobileExamPage();
     }));
 
     // ----- Help menu -----
