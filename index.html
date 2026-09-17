@@ -1,745 +1,873 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
-    <title>Laboratorio Clínico Don Leo</title>
-    <style>
-        /* Variables globales */
-        :root {
-            --primary-color: #0056b3;
-            --secondary-color: #009688;
-            --bg-light: #f4f7f6;
-            --text-dark: #333;
-            --white: #ffffff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Laboratorio Clínico Don Leo en Nandaime, Granada. Consulta exámenes, precios, servicios, horarios y agenda por WhatsApp." />
+  <meta name="theme-color" content="#083d66" />
+  <title>Laboratorio Clínico Don Leo | Nandaime</title>
+  <style>
+    :root{
+      --navy:#083d66;
+      --navy-2:#052c4b;
+      --blue:#0a6eb5;
+      --teal:#11a7a0;
+      --teal-dark:#087d79;
+      --mint:#e8f8f6;
+      --sky:#eef7fc;
+      --ink:#152432;
+      --muted:#617181;
+      --line:#dce7ed;
+      --white:#ffffff;
+      --soft:#f7fafc;
+      --success:#20bf6b;
+      --warning:#ffb020;
+      --shadow:0 18px 55px rgba(8,61,102,.14);
+      --shadow-sm:0 8px 26px rgba(8,61,102,.10);
+      --radius:22px;
+      --radius-sm:14px;
+      --max:1180px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--soft);line-height:1.55;overflow-x:hidden}
+    body.modal-open{overflow:hidden}
+    img{display:block;max-width:100%}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit}
+    .container{width:min(var(--max),calc(100% - 36px));margin-inline:auto}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    /* ---------- GLOBAL HEADER ---------- */
+    .utility{background:var(--navy-2);color:#dcebf4;font-size:.84rem}
+    .utility-inner{min-height:38px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .utility-group{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+    .utility a{text-decoration:none;color:#fff;font-weight:750}
 
-        body {
-            color: var(--text-dark);
-            line-height: 1.6;
-            background-color: var(--bg-light);
-            overflow-x: hidden;
-        }
+    .header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(220,231,237,.9)}
+    .header-inner{height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
+    .brand-logo{width:52px;height:52px;border-radius:15px;object-fit:cover;border:1px solid var(--line);box-shadow:var(--shadow-sm);background:#fff}
+    .brand-copy{line-height:1.15}
+    .brand-copy strong{display:block;color:var(--navy);font-size:1.02rem}
+    .brand-copy span{display:block;color:var(--muted);font-size:.76rem;margin-top:4px}
+    .desktop-nav{display:flex;align-items:center;gap:4px;list-style:none}
+    .desktop-nav button{border:0;background:transparent;color:#42515e;font-weight:760;padding:10px 12px;border-radius:999px;transition:.2s}
+    .desktop-nav button:hover,.desktop-nav button.active{color:var(--blue);background:#edf6fb}
+    .header-actions{display:flex;align-items:center;gap:9px}
+    .header-search{height:44px;padding:0 15px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-weight:800;display:flex;align-items:center;gap:8px;box-shadow:0 3px 12px rgba(8,61,102,.04)}
+    .header-search:hover{border-color:#b7d7e7;background:#fbfdff}
+    .header-wa{height:44px;padding:0 16px;border:0;border-radius:999px;background:var(--teal);color:#fff;text-decoration:none;font-weight:850;display:flex;align-items:center;gap:8px;box-shadow:0 10px 24px rgba(17,167,160,.22)}
+    .menu-btn{display:none;width:44px;height:44px;border:1px solid var(--line);background:#fff;border-radius:13px;color:var(--navy);font-size:1.3rem}
 
-        /* Regla para imágenes responsivas */
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
+    /* ---------- SPA VIEWS ---------- */
+    main{min-height:calc(100vh - 116px)}
+    .view{display:none;animation:viewIn .32s ease both}
+    .view.active{display:block}
+    @keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-        /* ----- NAVEGACIÓN ----- */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--primary-color);
-            padding: 0.5rem 2rem;
-            color: var(--white);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+    /* ---------- HOME ---------- */
+    .hero{position:relative;overflow:hidden;background:var(--navy);color:#fff}
+    .hero::before{content:"";position:absolute;inset:0;background:
+      linear-gradient(90deg,rgba(4,38,65,.96) 0%,rgba(4,38,65,.89) 43%,rgba(4,38,65,.48) 68%,rgba(4,38,65,.30) 100%),
+      url('https://scontent.fmga11-2.fna.fbcdn.net/v/t39.30808-6/683662373_122131613229081530_2802544600246970117_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=13d280&_nc_ohc=_hweG9vH3VEQ7kNvwHm6SP4&_nc_oc=Ado7PdYL7cGKc5eLBxr94b4YxLoUclOGwV-G8bE9ixka8BEI7dBS4HQlUqEC9bGYH_Cal2GDZNGRpFXw8igFIMdi&_nc_zt=23&_nc_ht=scontent.fmga11-2.fna&_nc_gid=HJAAY9efz0UdQ7lL6AsvFA&_nc_ss=7b2a8&oh=00_Af1L8REnIOjYIxM9ROFL6l3GujD1F2RDkI_qFwgT_eJbMg&oe=69F6F40B') center/cover no-repeat}
+    .hero::after{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-170px;bottom:-270px;background:radial-gradient(circle,rgba(50,219,209,.34),rgba(50,219,209,0) 68%)}
+    .hero-inner{position:relative;z-index:2;min-height:650px;display:grid;grid-template-columns:minmax(0,760px) 1fr;align-items:center;padding:74px 0 100px}
+    .hero-badge{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.09);backdrop-filter:blur(8px);border-radius:999px;padding:8px 13px;font-size:.83rem;font-weight:800;margin-bottom:18px}
+    .hero h1{font-size:clamp(2.8rem,6vw,5.25rem);line-height:.98;letter-spacing:-.055em;max-width:820px}
+    .hero h1 span{color:#7de1dc}
+    .hero-copy{max-width:690px;color:#dbe9f2;font-size:clamp(1rem,1.6vw,1.15rem);margin-top:22px}
 
-        .logo-img {
-            height: 50px;
-            width: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            cursor: pointer;
-        }
+    .hero-search-wrap{margin-top:30px;max-width:720px;position:relative}
+    .hero-search{background:#fff;border-radius:18px;padding:8px;display:grid;grid-template-columns:1fr auto;gap:8px;box-shadow:0 20px 50px rgba(0,0,0,.24)}
+    .hero-search-field{position:relative}
+    .hero-search-field svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#6a7c89}
+    .hero-search input{width:100%;height:58px;border:0;outline:0;padding:0 16px 0 48px;border-radius:14px;font-size:1rem;color:var(--ink)}
+    .hero-search button{border:0;border-radius:14px;background:var(--teal);color:#fff;font-weight:850;padding:0 22px;min-width:150px}
+    .hero-search button:hover{background:var(--teal-dark)}
+    .hero-search-hint{color:#c9dde9;font-size:.82rem;margin-top:9px;padding-left:4px}
+    .hero-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:24px}
+    .btn{border:0;border-radius:999px;min-height:48px;padding:0 19px;display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;font-weight:850;transition:.2s}
+    .btn-primary{background:var(--teal);color:#fff;box-shadow:0 12px 28px rgba(17,167,160,.25)}
+    .btn-primary:hover{transform:translateY(-2px);background:var(--teal-dark)}
+    .btn-secondary{background:#fff;color:var(--navy);box-shadow:var(--shadow-sm)}
+    .btn-secondary:hover{transform:translateY(-2px)}
+    .btn-ghost{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;backdrop-filter:blur(8px)}
+    .btn-ghost:hover{background:#fff;color:var(--navy)}
 
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 6px;
-            z-index: 1001;
-        }
+    .quick-zone{position:relative;z-index:4;margin-top:-54px;padding-bottom:56px}
+    .quick-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;gap:14px}
+    .quick-card{min-height:145px;border:1px solid var(--line);border-radius:20px;background:#fff;padding:22px;box-shadow:var(--shadow-sm);text-align:left;transition:.22s;position:relative;overflow:hidden}
+    button.quick-card{width:100%}
+    .quick-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#c5dce7}
+    .quick-card.primary{background:linear-gradient(145deg,var(--navy),var(--blue));color:#fff;border:0}
+    .quick-card .q-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:var(--sky);color:var(--blue);font-size:1.2rem;margin-bottom:13px}
+    .quick-card.primary .q-icon{background:rgba(255,255,255,.14);color:#fff}
+    .quick-card strong{display:block;color:var(--navy);font-size:1rem}
+    .quick-card.primary strong{color:#fff}
+    .quick-card span{display:block;color:var(--muted);font-size:.85rem;margin-top:4px;max-width:240px}
+    .quick-card.primary span{color:#d6e9f5}
+    .quick-card .arrow{position:absolute;right:18px;top:18px;font-weight:900;color:#91a3af}
+    .quick-card.primary .arrow{color:#b9dce8}
 
-        .menu-toggle span {
-            display: block;
-            width: 28px;
-            height: 3px;
-            background-color: var(--white);
-            border-radius: 3px;
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
+    .home-content{padding:30px 0 86px}
+    .home-split{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:stretch}
+    .home-story{background:#fff;border:1px solid var(--line);border-radius:26px;padding:34px;box-shadow:var(--shadow-sm)}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal-dark);text-transform:uppercase;letter-spacing:.13em;font-size:.75rem;font-weight:900}
+    .eyebrow::before{content:"";width:24px;height:2px;background:currentColor;border-radius:99px}
+    .home-story h2,.home-mission h2{font-size:clamp(2rem,3.6vw,3rem);line-height:1.06;letter-spacing:-.04em;color:var(--navy);margin-top:10px}
+    .home-story p{color:var(--muted);margin-top:15px}
+    .trust-inline{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+    .trust-pill{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:14px}
+    .trust-pill strong{display:block;color:var(--navy);font-size:.92rem}
+    .trust-pill span{color:var(--muted);font-size:.79rem;display:block;margin-top:3px}
+    .home-mission{background:linear-gradient(145deg,#e8f8f6,#f8ffff);border:1px solid #cdebe8;border-radius:26px;padding:34px;position:relative;overflow:hidden}
+    .home-mission::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-110px;bottom:-120px;background:rgba(17,167,160,.12)}
+    .home-mission p{color:#50666d;margin-top:15px;position:relative;z-index:1}
+    .home-mission .mission-link{margin-top:22px;position:relative;z-index:1}
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 1.5rem;
-        }
+    /* ---------- INNER PAGE COMMON ---------- */
+    .page-hero{background:linear-gradient(135deg,var(--navy-2),var(--navy) 58%,#087c83);color:#fff;padding:54px 0;position:relative;overflow:hidden}
+    .page-hero::after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;right:-120px;top:-190px;background:rgba(255,255,255,.06)}
+    .page-hero .eyebrow{color:#89e2de}
+    .page-hero h1{font-size:clamp(2.25rem,5vw,4.1rem);line-height:1;letter-spacing:-.05em;margin-top:10px;max-width:850px}
+    .page-hero p{max-width:720px;color:#d4e6f0;margin-top:16px;font-size:1.03rem}
+    .page-body{padding:52px 0 88px}
+    .section-title{font-size:clamp(1.9rem,3.8vw,3rem);line-height:1.06;letter-spacing:-.04em;color:var(--navy)}
+    .section-copy{color:var(--muted);margin-top:13px;max-width:760px}
 
-        .nav-links li {
-            cursor: pointer;
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 0.5rem 0;
-        }
+    /* ---------- EXAMS PAGE ---------- */
+    .exam-layout{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    .exam-sidebar{position:sticky;top:104px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow-sm)}
+    .exam-sidebar h3{color:var(--navy);font-size:1rem;margin-bottom:12px}
+    .category-list{display:grid;gap:7px}
+    .category-btn{width:100%;border:0;background:transparent;border-radius:12px;padding:11px 12px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#475864;font-weight:750;transition:.18s}
+    .category-btn:hover{background:var(--sky);color:var(--blue)}
+    .category-btn.active{background:var(--navy);color:#fff}
+    .category-count{font-size:.73rem;border-radius:999px;padding:3px 8px;background:#eef3f6;color:#71818d}
+    .category-btn.active .category-count{background:rgba(255,255,255,.16);color:#fff}
+    .exam-help{border-top:1px solid var(--line);margin-top:18px;padding-top:18px}
+    .exam-help p{color:var(--muted);font-size:.84rem}
+    .exam-help a{margin-top:12px;width:100%}
 
-        .nav-links li:hover, .nav-links li.active-link {
-            color: #d1e7dd;
-            border-bottom: 2px solid var(--secondary-color);
-        }
+    .exam-main{min-width:0}
+    .exam-search-panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm)}
+    .exam-search-row{display:grid;grid-template-columns:1fr auto;gap:10px}
+    .exam-input-wrap{position:relative}
+    .exam-input-wrap svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#71818d}
+    .exam-input{width:100%;height:54px;border:1px solid var(--line);border-radius:14px;padding:0 44px 0 45px;outline:0;font-size:1rem;background:#fbfdfe}
+    .exam-input:focus{border-color:#83bfdc;box-shadow:0 0 0 4px rgba(10,110,181,.08);background:#fff}
+    .clear-search{position:absolute;right:11px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;background:transparent;border-radius:50%;color:#6b7c89;display:none}
+    .clear-search.show{display:block}
+    .exam-search-panel .btn{border-radius:14px;min-width:150px}
+    .search-note{color:var(--muted);font-size:.82rem;margin-top:9px;padding-left:2px}
+    .result-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:22px 2px 12px}
+    .result-head strong{color:var(--navy)}
+    .result-head span{color:var(--muted);font-size:.85rem}
+    .exam-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .exam-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 17px;display:flex;justify-content:space-between;align-items:center;gap:14px;transition:.18s}
+    .exam-card:hover{border-color:#b5d8e3;transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+    .exam-card h4{font-size:.92rem;color:#293b48;line-height:1.3}
+    .exam-card small{display:block;color:var(--muted);font-size:.74rem;margin-top:4px}
+    .price{background:var(--mint);color:var(--teal-dark);font-weight:900;font-size:.9rem;padding:7px 10px;border-radius:999px;white-space:nowrap}
+    .empty{grid-column:1/-1;background:#fff;border:1px dashed #bfd0da;border-radius:18px;padding:42px 20px;text-align:center;color:var(--muted)}
+    .empty strong{display:block;color:var(--navy);font-size:1.05rem;margin-bottom:5px}
+    .category-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .category-card{border:1px solid var(--line);background:#fff;border-radius:17px;padding:18px;text-align:left;transition:.18s}
+    .category-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm);border-color:#bedae7}
+    .category-card strong{display:block;color:var(--navy);font-size:.94rem}
+    .category-card span{display:block;color:var(--muted);font-size:.78rem;margin-top:4px}
+    .category-card b{display:inline-block;margin-top:10px;color:var(--teal-dark);font-size:.78rem}
 
-        /* ----- SISTEMA DE VISTAS (SPA) ----- */
-        .page-section {
-            display: none; 
-            animation: fadeIn 0.4s ease-in-out;
-            min-height: calc(100vh - 300px); 
-            background-color: var(--white);
-        }
+    /* ---------- SERVICES ---------- */
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .service-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:0 4px 14px rgba(8,61,102,.04);transition:.2s}
+    .service-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-sm)}
+    .service-icon{width:48px;height:48px;border-radius:15px;background:var(--mint);color:var(--teal-dark);display:grid;place-items:center;font-weight:900;margin-bottom:16px}
+    .service-card h3{color:var(--navy);font-size:1.16rem}
+    .service-card p{color:var(--muted);font-size:.9rem;margin-top:7px}
+    .service-card button{border:0;background:transparent;color:var(--blue);font-weight:850;margin-top:16px;padding:0}
+    .service-cta{margin-top:26px;border-radius:22px;padding:28px;background:linear-gradient(145deg,var(--navy),var(--blue));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .service-cta p{color:#d9e8f1;margin-top:5px}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* ---------- HISTORY ---------- */
+    .history-layout{display:grid;grid-template-columns:.95fr 1.05fr;gap:36px;align-items:start}
+    .history-photo{position:sticky;top:104px}
+    .history-photo img{width:100%;height:520px;object-fit:cover;border-radius:26px;box-shadow:var(--shadow)}
+    .history-photo-tag{margin:-76px 18px 0;position:relative;background:rgba(5,44,75,.94);backdrop-filter:blur(9px);color:#fff;border-radius:18px;padding:18px}
+    .history-photo-tag strong{display:block;font-size:1.05rem}
+    .history-photo-tag span{display:block;color:#d5e8f3;font-size:.83rem;margin-top:4px}
+    .history-copy-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow-sm)}
+    .history-copy-card p{color:var(--muted);margin-top:14px}
+    .founder-card{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;display:grid;grid-template-columns:210px 1fr;box-shadow:var(--shadow-sm)}
+    .founder-media{background:linear-gradient(145deg,var(--navy),var(--blue));padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#fff}
+    .founder-media img{width:145px;height:145px;border-radius:50%;object-fit:cover;border:5px solid rgba(255,255,255,.9);box-shadow:0 15px 35px rgba(0,0,0,.18)}
+    .founder-media strong{margin-top:14px;line-height:1.2}
+    .founder-media span{font-size:.78rem;color:#cfe5f2;margin-top:4px}
+    .founder-text{padding:28px}
+    .bio-point{padding:13px 0;border-top:1px solid var(--line)}
+    .bio-point:first-of-type{border-top:0;padding-top:0}
+    .bio-point h4{color:var(--teal-dark);font-size:.92rem}
+    .bio-point p{color:var(--muted);font-size:.88rem;margin-top:5px}
 
-        #inicio.active, #historia.active, #servicios.active, #faq.active { display: block; }
+    /* ---------- FAQ ---------- */
+    .faq-layout{display:grid;grid-template-columns:.75fr 1.25fr;gap:34px;align-items:start}
+    .faq-aside{background:linear-gradient(145deg,var(--navy),var(--blue));color:#fff;border-radius:24px;padding:30px;position:sticky;top:104px}
+    .faq-aside p{color:#d7e7f0;margin-top:12px}
+    .faq-aside .btn{margin-top:20px}
+    .faq-list{display:grid;gap:10px}
+    details{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+    summary{list-style:none;padding:19px 20px;cursor:pointer;color:var(--navy);font-weight:850;display:flex;justify-content:space-between;gap:15px;align-items:center}
+    summary::-webkit-details-marker{display:none}
+    summary::after{content:"+";width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--mint);color:var(--teal-dark);flex:0 0 auto}
+    details[open] summary::after{content:"−"}
+    details p{padding:0 20px 20px;color:var(--muted)}
 
-        /* ----- VISTA: INICIO ----- */
-        .hero {
-            background: linear-gradient(rgba(0, 86, 179, 0.7), rgba(0, 150, 136, 0.7)), url('https://scontent.fmga11-2.fna.fbcdn.net/v/t39.30808-6/683662373_122131613229081530_2802544600246970117_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=13d280&_nc_ohc=_hweG9vH3VEQ7kNvwHm6SP4&_nc_oc=Ado7PdYL7cGKc5eLBxr94b4YxLoUclOGwV-G8bE9ixka8BEI7dBS4HQlUqEC9bGYH_Cal2GDZNGRpFXw8igFIMdi&_nc_zt=23&_nc_ht=scontent.fmga11-2.fna&_nc_gid=HJAAY9efz0UdQ7lL6AsvFA&_nc_ss=7b2a8&oh=00_Af1L8REnIOjYIxM9ROFL6l3GujD1F2RDkI_qFwgT_eJbMg&oe=69F6F40B') center/cover;
-            height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-            padding: 0 1.5rem;
-        }
+    /* ---------- CONTACT ---------- */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .contact-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:var(--shadow-sm)}
+    .contact-card h3{color:var(--navy);font-size:1.25rem}
+    .contact-lines{display:grid;gap:14px;margin-top:20px}
+    .contact-line{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:start}
+    .contact-line i{width:42px;height:42px;border-radius:13px;background:var(--sky);display:grid;place-items:center;font-style:normal}
+    .contact-line strong{display:block;color:var(--navy);font-size:.9rem}
+    .contact-line span,.contact-line a{color:var(--muted);text-decoration:none;font-size:.88rem}
+    .contact-map{background:linear-gradient(145deg,var(--navy-2),var(--navy));color:#fff;border-radius:22px;padding:30px;position:relative;overflow:hidden}
+    .contact-map::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(17,167,160,.18);right:-100px;bottom:-110px}
+    .contact-map h3{font-size:1.6rem;position:relative;z-index:1}
+    .contact-map p{color:#d4e6f0;margin-top:10px;position:relative;z-index:1}
+    .contact-map .btn{margin-top:20px;position:relative;z-index:1}
 
-        .hero-content h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.2;
-        }
+    /* ---------- FOOTER ---------- */
+    footer{background:#041f35;color:#c8d7e0;padding:34px 0 20px}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .footer-brand{display:flex;align-items:center;gap:12px}
+    .footer-brand img{width:44px;height:44px;object-fit:cover;border-radius:12px}
+    .footer-brand strong{display:block;color:#fff;font-size:.92rem}
+    .footer-brand span{display:block;color:#90a8b8;font-size:.77rem;margin-top:3px}
+    .footer-links{display:flex;gap:16px;flex-wrap:wrap}
+    .footer-links button{border:0;background:transparent;color:#b6c8d3;font-size:.83rem}
+    .footer-links button:hover{color:#fff}
+    .copyright{border-top:1px solid rgba(255,255,255,.1);margin-top:24px;padding-top:18px;color:#819baa;font-size:.78rem}
 
-        .btn-primary {
-            background-color: var(--secondary-color);
-            color: var(--white);
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: background 0.3s ease, transform 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            display: inline-block;
-            cursor: pointer;
-            border: none;
-            text-align: center;
-            width: fit-content;
-        }
+    /* ---------- SEARCH MODAL ---------- */
+    .overlay{position:fixed;inset:0;background:rgba(2,18,31,.68);backdrop-filter:blur(6px);z-index:2500;display:none;padding:22px;align-items:flex-start;justify-content:center}
+    .overlay.open{display:flex;animation:fade .2s ease}
+    @keyframes fade{from{opacity:0}to{opacity:1}}
+    .search-modal{width:min(760px,100%);background:#fff;border-radius:24px;box-shadow:0 30px 100px rgba(0,0,0,.3);margin-top:min(10vh,90px);overflow:hidden;animation:modalIn .22s ease}
+    @keyframes modalIn{from{opacity:0;transform:translateY(-10px) scale(.985)}to{opacity:1;transform:none}}
+    .modal-top{padding:18px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:9px}
+    .modal-input-wrap{position:relative}
+    .modal-input-wrap svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#71818d}
+    .modal-input{width:100%;height:56px;border:1px solid var(--line);border-radius:15px;padding:0 15px 0 46px;outline:0;font-size:1rem}
+    .modal-input:focus{border-color:#8dc4df;box-shadow:0 0 0 4px rgba(10,110,181,.08)}
+    .modal-close{width:56px;height:56px;border:1px solid var(--line);background:#fff;border-radius:15px;color:#617181;font-size:1.3rem}
+    .modal-content{max-height:min(64vh,560px);overflow:auto;padding:14px 18px 18px}
+    .modal-empty{padding:32px 10px;text-align:center;color:var(--muted)}
+    .modal-hint{font-size:.8rem;color:var(--muted);padding:3px 3px 10px}
+    .modal-result{width:100%;border:0;background:#fff;border-radius:13px;padding:13px 12px;display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;transition:.16s}
+    .modal-result:hover{background:var(--sky)}
+    .modal-result strong{display:block;color:var(--navy);font-size:.91rem}
+    .modal-result small{display:block;color:var(--muted);font-size:.73rem;margin-top:3px}
+    .modal-result .price{font-size:.84rem}
+    .modal-footer{padding:13px 18px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px;color:var(--muted);font-size:.79rem;background:#fbfdfe}
 
-        .btn-primary:hover {
-            background-color: #00796b;
-            transform: translateY(-2px);
-        }
+    /* ---------- QUICK CONTACT ---------- */
+    .help-fab{position:fixed;right:18px;bottom:18px;z-index:1400;width:58px;height:58px;border-radius:50%;border:4px solid #fff;background:linear-gradient(145deg,var(--teal),var(--teal-dark));color:#fff;box-shadow:0 16px 36px rgba(4,44,75,.25);font-size:1.25rem}
+    .help-menu{position:fixed;right:18px;bottom:86px;z-index:1399;width:min(300px,calc(100vw - 36px));background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:var(--shadow);display:none}
+    .help-menu.open{display:grid;animation:modalIn .18s ease}
+    .help-menu button,.help-menu a{border:0;background:#fff;text-decoration:none;border-radius:12px;padding:12px;display:flex;align-items:center;gap:11px;text-align:left;color:#324652;font-weight:800}
+    .help-menu button:hover,.help-menu a:hover{background:var(--sky)}
+    .help-menu span{width:34px;height:34px;border-radius:11px;background:var(--mint);display:grid;place-items:center;flex:0 0 auto}
 
-        .intro-section {
-            padding: 4rem 1.5rem;
-            background-color: var(--white);
-        }
+    /* ---------- MOBILE BOTTOM NAV ---------- */
+    .mobile-bottom{display:none}
 
-        .intro-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-
-        .intro-text {
-            flex: 1 1 400px;
-            background: var(--bg-light);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-top: 5px solid var(--primary-color);
-        }
-
-        .intro-text.mision { border-top: 5px solid var(--secondary-color); }
-        .intro-text h2 { color: var(--primary-color); margin-bottom: 1.2rem; font-size: 1.8rem; }
-        .intro-text.mision h2 { color: var(--secondary-color); }
-        .intro-text p { color: #555; font-size: 1.05rem; line-height: 1.7; text-align: justify; }
-
-        /* ----- VISTA: HISTORIA ----- */
-        .historia-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 5rem 1.5rem;
-        }
-
-        .historia-section-title {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .historia-content h3 {
-            color: var(--secondary-color);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .historia-content p {
-            color: #555;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            text-align: justify;
-        }
-
-        .historia-main-image {
-            margin: 3rem auto;
-            width: 100%;
-            max-width: 700px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .historia-main-image img {
-            width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-            object-fit: cover;
-        }
-
-        .fundador-bio {
-            background-color: var(--bg-light);
-            padding: 3rem;
-            border-radius: 15px;
-            margin-top: 4rem;
-        }
-
-        .fundador-bio h2 { color: var(--primary-color); font-size: 2rem; margin-bottom: 0.5rem; text-align: center; }
-        .fundador-bio h3 { color: var(--secondary-color); font-size: 1.4rem; text-align: center; margin-bottom: 1rem; }
-        
-        .fundador-profile-img {
-            display: flex;
-            justify-content: center;
-            margin: 2rem 0;
-        }
-
-        .fundador-profile-img img {
-            width: 220px;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 5px solid var(--white);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        .fundador-bio h4 { color: var(--primary-color); font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem; border-left: 4px solid var(--secondary-color); padding-left: 15px; }
-
-        /* ----- VISTA: SERVICIOS ----- */
-        .servicios-container {
-            padding: 4rem 1.5rem;
-            text-align: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .servicios-container h2 { color: var(--primary-color); margin-bottom: 2.5rem; font-size: 2rem; }
-
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            justify-content: center;
-        }
-
-        .card {
-            background-color: var(--bg-light);
-            padding: 2rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            flex: 1 1 250px;
-            max-width: 350px;
-            border-top: 4px solid var(--secondary-color);
-        }
-
-        .card h3 { color: var(--primary-color); margin-bottom: 1rem; font-size: 1.3rem; }
-        .card p { color: #555; }
-
-        /* ----- VISTA: PREGUNTAS FRECUENTES (FAQ) ----- */
-        .faq-container {
-            padding: 4rem 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-container h2 { color: var(--primary-color); text-align: center; margin-bottom: 2.5rem; font-size: 2rem; }
-
-        details {
-            background-color: var(--bg-light);
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #e0e0e0;
-        }
-
-        summary {
-            padding: 1.2rem 1.5rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            color: var(--primary-color);
-            outline: none;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        summary::after { content: '+'; font-size: 1.5rem; color: var(--secondary-color); }
-        details[open] summary::after { content: '−'; }
-        details p { padding: 0 1.5rem 1.5rem; color: #555; line-height: 1.6; }
-
-        /* ----- FOOTER ----- */
-        footer {
-            background-color: #1a1a1a;
-            color: #f1f1f1;
-            padding: 3rem 1.5rem 1.5rem;
-            width: 100%;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2.5rem;
-            max-width: 1200px;
-            margin: 0 auto 2rem;
-            text-align: center;
-        }
-
-        .footer-column { flex: 1 1 250px; }
-        .footer-column h4 { color: var(--secondary-color); margin-bottom: 1rem; font-size: 1.2rem; text-transform: uppercase; }
-        .footer-column p { margin-bottom: 0.5rem; font-size: 1.05rem; }
-        
-        .footer-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: var(--secondary-color);
-            text-decoration: none;
-            margin-top: 10px;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        .footer-link:hover { color: var(--white); }
-
-        .contact-link {
-            color: #f1f1f1;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .contact-link:hover {
-            color: var(--secondary-color);
-        }
-        
-        .copyright { text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #333; font-size: 0.9rem; color: #888; }
-
-        /* ----- CHATBOT WIDGET ----- */
-        .chatbot-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; align-items: center; }
-        .chat-tooltip { background-color: var(--white); color: var(--primary-color); padding: 8px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-right: 12px; position: relative; animation: float 3s ease-in-out infinite; cursor: pointer; }
-        .chat-tooltip::after { content: ''; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); border-width: 8px 0 8px 10px; border-style: solid; border-color: transparent transparent transparent var(--white); }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-        
-        .chat-btn { background: linear-gradient(135deg, var(--primary-color), #003d82); border: 3px solid var(--white); border-radius: 50%; width: 65px; height: 65px; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; }
-        
-        .chat-window { display: none; width: 340px; height: 500px; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; position: absolute; bottom: 75px; right: 0; animation: slideUp 0.3s ease-out; }
-        .chat-header { background-color: var(--primary-color); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .close-btn { background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
-        .chat-body { flex: 1; padding: 15px; overflow-y: auto; background-color: var(--bg-light); display: flex; flex-direction: column; gap: 10px; }
-        .message { max-width: 90%; padding: 10px 14px; border-radius: 15px; font-size: 13.5px; }
-        .bot-msg { background-color: white; border: 1px solid #e0e0e0; align-self: flex-start; border-bottom-left-radius: 2px; }
-        .user-msg { background-color: var(--secondary-color); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .chat-footer { display: flex; padding: 10px; background-color: white; border-top: 1px solid #eaeaea; }
-        .chat-footer input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; font-size: 13.5px; }
-        .chat-footer button { background-color: var(--primary-color); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 8px; cursor: pointer; }
-
-        /* Botones de opciones del chat */
-        .chat-options { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-        .chat-option-btn { background-color: #e0f2f1; border: 1px solid var(--secondary-color); color: var(--secondary-color); padding: 8px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 600; text-align: center; }
-        
-        .chat-option-btn.whatsapp-btn { background-color: #25D366; color: white; border-color: #25D366; text-decoration: none; display: inline-block; }
-        .chat-option-btn.phone-btn { background-color: var(--primary-color); color: white; border-color: var(--primary-color); text-decoration: none; display: inline-block; }
-        
-        /* Estilos para los campos del formulario de cotización */
-        .chat-input-form { width: 100%; padding: 8px 10px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
-
-        /* ----- MODAL CATÁLOGO PRECIOS ----- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center; padding: 15px; }
-        .modal-content { background: white; width: 100%; max-width: 800px; max-height: 90vh; border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; }
-        .modal-header { background: var(--primary-color); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h3 { font-size: 1.2rem; }
-        .modal-body { padding: 15px; overflow-y: auto; flex: 1; background: white; }
-        .modal-footer { padding: 15px; background: #f1f1f1; text-align: center; border-top: 1px solid #ddd; }
-        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-        .catalog-category h4 { color: var(--secondary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 5px; margin-bottom: 8px; font-size: 13px; }
-        .catalog-item { display: flex; justify-content: space-between; font-size: 12.5px; padding: 4px 0; border-bottom: 1px dashed #eee; }
-
-        @media (max-width: 768px) {
-            .navbar { padding: 0.8rem 1.5rem; }
-            .menu-toggle { display: flex; }
-            .nav-links {
-                position: fixed; top: 66px; right: -100%; width: 70%; height: 100vh;
-                background-color: var(--primary-color); flex-direction: column;
-                align-items: center; padding-top: 2rem; transition: right 0.3s ease-in-out;
-            }
-            .nav-links.nav-active { right: 0; }
-            .nav-links li { width: 100%; text-align: center; padding: 1.2rem 0; font-size: 1.2rem; }
-            .hero-content h1 { font-size: 2.2rem; }
-            .chat-window { width: calc(100vw - 30px); height: 70vh; bottom: 95px; right: -5px; }
-            .chat-tooltip { display: none; }
-            .fundador-bio { padding: 1.5rem; }
-            .fundador-profile-img img { width: 180px; height: 180px; }
-        }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    @media(max-width:1040px){
+      .desktop-nav{display:none}
+      .menu-btn{display:block}
+      .header-search span{display:none}
+      .header-search{width:44px;padding:0;justify-content:center}
+      .quick-grid{grid-template-columns:repeat(2,1fr)}
+      .home-split,.history-layout,.faq-layout,.contact-grid{grid-template-columns:1fr}
+      .history-photo{position:static}
+      .exam-layout{grid-template-columns:1fr}
+      .exam-sidebar{position:static}
+      .category-list{display:flex;overflow:auto;padding-bottom:4px;scrollbar-width:none}
+      .category-list::-webkit-scrollbar{display:none}
+      .category-btn{width:auto;white-space:nowrap;flex:0 0 auto}
+      .exam-help{display:none}
+      .services-grid{grid-template-columns:repeat(2,1fr)}
+      .faq-aside{position:static}
+    }
+    @media(max-width:720px){
+      body{padding-bottom:68px}
+      .utility{display:none}
+      .header-inner{height:68px}
+      .brand-logo{width:46px;height:46px}
+      .brand-copy strong{font-size:.9rem}
+      .brand-copy span{display:none}
+      .header-wa{display:none}
+      .hero-inner{min-height:auto;padding:64px 0 88px;grid-template-columns:1fr}
+      .hero h1{font-size:clamp(2.65rem,13vw,4.3rem)}
+      .hero-copy{font-size:1rem}
+      .hero-search{grid-template-columns:1fr}
+      .hero-search button{height:48px}
+      .quick-zone{margin-top:-34px;padding-bottom:42px}
+      .quick-grid{grid-template-columns:1fr 1fr;gap:10px}
+      .quick-card{min-height:134px;padding:17px}
+      .quick-card.primary{grid-column:1/-1;min-height:122px}
+      .home-content{padding-top:10px;padding-bottom:62px}
+      .home-story,.home-mission{padding:24px}
+      .trust-inline{grid-template-columns:1fr}
+      .page-hero{padding:38px 0}
+      .page-body{padding:36px 0 62px}
+      .exam-search-row{grid-template-columns:1fr}
+      .exam-search-panel .btn{height:48px}
+      .exam-results{grid-template-columns:1fr}
+      .category-cards{grid-template-columns:1fr 1fr}
+      .services-grid{grid-template-columns:1fr}
+      .service-cta{align-items:flex-start;flex-direction:column}
+      .founder-card{grid-template-columns:1fr}
+      .founder-media{padding:26px}
+      .history-photo img{height:380px}
+      footer{padding-bottom:26px}
+      .footer-inner{align-items:flex-start;flex-direction:column}
+      .help-fab,.help-menu{display:none!important}
+      .mobile-bottom{position:fixed;z-index:1800;left:0;right:0;bottom:0;height:68px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(14px);display:grid;grid-template-columns:repeat(4,1fr);padding:5px 8px env(safe-area-inset-bottom);box-shadow:0 -8px 30px rgba(8,61,102,.08)}
+      .mobile-bottom button,.mobile-bottom a{border:0;background:transparent;text-decoration:none;color:#647684;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:.67rem;font-weight:850;border-radius:10px}
+      .mobile-bottom button.active{color:var(--blue);background:var(--sky)}
+      .mobile-bottom b{font-size:1.15rem;line-height:1}
+      .overlay{padding:10px}
+      .search-modal{margin-top:7vh;border-radius:20px}
+      .modal-top{padding:12px}
+      .modal-footer{display:none}
+    }
+    @media(max-width:430px){
+      .container{width:min(var(--max),calc(100% - 28px))}
+      .brand-copy strong{max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .quick-grid{grid-template-columns:1fr}
+      .quick-card.primary{grid-column:auto}
+      .category-cards{grid-template-columns:1fr}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
 </head>
 <body>
-
-    <header>
-        <nav class="navbar">
-            <div class="logo" onclick="showpage('inicio')">
-                <img src="https://scontent.fmga3-2.fna.fbcdn.net/v/t39.30808-6/683032138_122131613115081530_8572606612400972667_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=13d280&_nc_ohc=Oq7tWs3WA-wQ7kNvwGDCLR1&_nc_oc=AdqUV55mFoM1g9NYF9KSA1fPvk_vH52XqvGOkO309YCN4w3i0Nlk9IqAK9GHiO_0xONL6vZRYjSyS2EdmdyveOt8&_nc_zt=23&_nc_ht=scontent.fmga3-2.fna&_nc_gid=a_SgPgq4Q5jjLgA7F4cndA&_nc_ss=7b2a8&oh=00_Af0sPBIR_O8jcBu_MKwYgxu385kPhssR1U7o8emagGlXmg&oe=69F718F2" alt="Logo Laboratorio Clínico Don Leo" class="logo-img">
-            </div>
-            
-            <div class="menu-toggle" id="mobile-menu" onclick="togglemenu()">
-                <span></span><span></span><span></span>
-            </div>
-
-            <ul class="nav-links" id="nav-links">
-                <li onclick="showpage('inicio')" id="nav-inicio" class="active-link">Inicio</li>
-                <li onclick="showpage('historia')" id="nav-historia">Historia</li>
-                <li onclick="showpage('servicios')" id="nav-servicios">Servicios</li>
-                <li onclick="showpage('faq')" id="nav-faq">Preguntas Frecuentes</li>
-                <li onclick="opencatalogmodal()">Precios</li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="inicio" class="page-section active">
-            <div class="hero">
-                <div class="hero-content">
-                    <h1>Resultados Precisos y Atención Humana en Nandaime</h1>
-                    <br>
-                    <a href="https://wa.me/50588845355" class="btn-primary" target="_blank">Agendar Examen por WhatsApp</a>
-                </div>
-            </div>
-
-            <div class="intro-section">
-                <div class="intro-container">
-                    <div class="intro-text">
-                        <h2>Laboratorio Clínico Don Leo</h2>
-                        <p>Es un centro especializado en bioanálisis clínico ubicado en el corazón de Nandaime. Bajo la dirección del Lic. Leonardo José Marcenaro Gutierrez, nos dedicamos a ofrecer diagnósticos precisos con resultados comparables con los laboratorios del primer mundo.</p>
-                        <p>Nuestra prioridad es brindar confianza, ética profesional y tecnología moderna para el cuidado de la salud de nuestra comunidad.</p>
-                    </div>
-                    <div class="intro-text mision">
-                        <h2>Nuestra Misión</h2>
-                        <p>Brindar diagnósticos clínicos con los mas altos estándares de precisión, utilizando tecnología avanzada para ofrecer resultados comparables con los del primer mundo, contribuyendo así al bienestar y la salud de la comunidad de Nandaime.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="historia" class="page-section">
-            <div class="historia-container">
-                <div class="historia-content">
-                    <h2 class="historia-section-title">Nuestra Historia</h2>
-                    <h3>Un sueño hecho realidad al servicio de su salud</h3>
-                    <p>Laboratorio Clínico Don Leo nace en Nandaime con el firme compromiso de elevar el estándar de los diagnósticos médicos en nuestra comunidad. Fundado por el Lic. Leonardo José Marcenaro Gutierrez, este centro surge para llenar la necesidad de un servicio de bioanálisis que combine la calidez humana con la precisión tecnológica. Desde el primer día, nos hemos enfocado en que cada paciente reciba una atención digna y resultados en los que su médico pueda confiar plenamente.</p>
-                </div>
-
-                <div class="historia-main-image">
-                    <img src="https://scontent.fmga3-2.fna.fbcdn.net/v/t39.30808-6/683317649_122131613073081530_7735227442387929603_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=13d280&_nc_ohc=WJnvk9ked08Q7kNvwGln3dF&_nc_oc=AdoHwLXibu1FPKYOHkrbIop5LB50Kxi1TNtaineJMW-E4H9rYmaM6_wB5iyVaTQvfKVXZXRYiAAJpmw5iv_j63ZA&_nc_zt=23&_nc_ht=scontent.fmga3-2.fna&_nc_gid=kxl1yC7SFK7vLkmJ35vr-g&_nc_ss=7b2a8&oh=00_Af2mG_Ep_FzFgiPep_bA9pkG8r-PxC5LtF8fdoI9GKSGKA&oe=69F88128" alt="Laboratorio Clínico Don Leo">
-                </div>
-
-                <div class="fundador-bio">
-                    <h2>Nuestro Fundador</h2>
-                    <h3>Lic. Leonardo José Marcenaro Gutiérrez</h3>
-                    
-                    <div class="fundador-profile-img">
-                        <img src="https://scontent.fmga3-2.fna.fbcdn.net/v/t39.30808-6/684228125_122131776567081530_7928849248743029929_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=13d280&_nc_ohc=Qr1EYiVo4r8Q7kNvwE__qh9&_nc_oc=AdqUvWtdxM7VARlSFaCT5o3qJJWdQ6zrqpkbHdeOINNvGIN_ntISsDzRBnTnlwOo4gaHiRKInKZwuvIqS5vgJEFr&_nc_zt=23&_nc_ht=scontent.fmga3-2.fna&_nc_gid=uu65gHzdbQ2iyBsNlGQIjw&_nc_ss=7b2a8&oh=00_Af1Klhbz73kda4JzTDBVhDjt_nCJ3YD0OkUTSx0sbduSXA&oe=69F883BE" alt="Lic. Leonardo José Marcenaro Gutiérrez">
-                    </div>
-                    
-                    <h4>Trayectoria y Excelencia en Bioquímica Clínica</h4>
-                    <p>El Licenciado Leonardo José Marcenaro Gutiérrez es un respetado profesional de las ciencias de la salud con 30 años de experiencia dedicada al diagnóstico clínico. Su sólida base científica se forjó en la Universidad de La Habana, de donde egresó en 1993 como Licenciado en Bioquímica.</p>
-                    
-                    <h4>Experiencia en Instituciones de Referencia</h4>
-                    <p>Su destacada carrera incluye roles de gran responsabilidad en los hospitales más importantes del país. Se desempeñó como Jefe de Área en el Hospital Escuela Antonio Lenin Fonseca y formó parte del equipo profesional del Hospital Amistad Japón Nicaragua.</p>
-                    
-                    <h4>Director y Propietario</h4>
-                    <p>Como director, ha logrado consolidar un espacio donde la experiencia hospitalaria se traduce en un servicio de alta calidad, precisión diagnóstica y un trato humano excepcional.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="servicios" class="page-section">
-            <div class="servicios-container">
-                <h2>Nuestras Especialidades</h2>
-                <div class="card-container">
-                    <div class="card"><h3>Hematología</h3><p>Análisis detallado de glóbulos rojos, blancos y plaquetas.</p></div>
-                    <div class="card"><h3>Química Sanguínea</h3><p>Control Metabólico, Perfil Lipídico y Perfil Hepático.</p></div>
-                    <div class="card"><h3>Bacteriología</h3><p>Urocultivos y Coprocultivos precisos para identificar bacterias.</p></div>
-                    <div class="card"><h3>Pruebas Especiales</h3><p>Diagnósticos avanzados, control de hormonas y marcadores tumorales.</p></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="faq" class="page-section">
-            <div class="faq-container">
-                <h2>Preguntas Frecuentes</h2>
-                <details><summary>¿Se necesita cita previa?</summary><p>No es estrictamente necesario, atendemos por orden de llegada. Puede agendar vía WhatsApp para su comodidad.</p></details>
-                <details><summary>¿Cuánto tiempo tardan en entregar los resultados?</summary><p>Exámenes de rutina el mismo día. Pruebas especiales o cultivos pueden tardar de 3 a 5 días hábiles.</p></details>
-                <details><summary>¿Pueden enviar mis resultados por WhatsApp?</summary><p>¡Claro que sí! Ofrecemos el envío de resultados en formato PDF a su WhatsApp o correo electrónico.</p></details>
-                <details><summary>¿Realizan pruebas de bacteriología?</summary><p>Sí, contamos con un área especializada en urocultivos, coprocultivos y cultivos de secreciones.</p></details>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h4>📍 Ubicación</h4>
-                <p>Del Palí de Nandaime, 75 varas al Este.</p>
-                <p>Granada, Nicaragua.</p>
-                <a href="https://share.google/9vUGHdJO8KlKk1VPr" target="_blank" class="footer-link">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
-                    Abrir en Google Maps
-                </a>
-            </div>
-            <div class="footer-column">
-                <h4>🕒 Horario de Atención</h4>
-                <p><strong>Lunes a Viernes:</strong></p>
-                <p>7:30 am - 2:30 pm</p>
-                <p><strong>Sábado:</strong></p>
-                <p>7:30 am - 12:30 pm</p>
-                <p><strong>Domingo:</strong> Cerrado</p>
-            </div>
-            <div class="footer-column">
-                <h4>📞 Contacto</h4>
-                <p>
-                    <a href="https://wa.me/50588845355" target="_blank" class="contact-link">WhatsApp: +505 888 45 355</a><br>
-                    <a href="tel:25620246" class="contact-link">Teléfono: 2562-0246</a><br>
-                    <a href="mailto:leomarce66@yahoo.es" class="contact-link">leomarce66@yahoo.es</a>
-                </p>
-                <a href="https://www.facebook.com/share/17XkSLaA8p/" target="_blank" class="footer-link">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
-                    Síguenos en Facebook
-                </a>
-            </div>
-        </div>
-        <p class="copyright">© 2026 Laboratorio Clínico Don Leo. Todos los derechos reservados.</p>
-    </footer>
-
-    <div class="modal-overlay" id="catalogmodal">
-        <div class="modal-content">
-            <div class="modal-header"><h3>Catálogo de Precios</h3><button class="close-btn" onclick="closecatalogmodal()">✖</button></div>
-            <div class="modal-body">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2>Laboratorio Clínico Don Leo</h2>
-                    <p style="color: #666; font-size: 14px;">Catálogo Oficial de Exámenes y Precios</p>
-                    <p style="color: #666; font-size: 12px;">Del Palí de Nandaime, 75 varas al Este. | Tel: +505 888 45 355</p>
-                    <p style="color: #666; font-size: 12px;">Horario: Lunes a Viernes (7:30am - 2:30pm) | Sábado (7:30am - 12:30pm)</p>
-                    <hr style="margin-top: 10px; border: 0; border-top: 1px solid #ccc;">
-                </div>
-                <div class="catalog-grid" id="cataloggrid"></div>
-            </div>
-            <div class="modal-footer"><button class="btn-primary" onclick="window.print()">🖨️ Guardar PDF</button></div>
-        </div>
+  <div class="utility">
+    <div class="container utility-inner">
+      <div class="utility-group">
+        <span>📍 Del Palí de Nandaime, 75 varas al Este</span>
+        <span>🕒 Lun–Vie 7:30 am–2:30 pm · Sáb 7:30 am–12:30 pm</span>
+      </div>
+      <div class="utility-group">
+        <a href="tel:25620246">2562-0246</a>
+        <a href="https://wa.me/50588845355" target="_blank" rel="noopener">WhatsApp +505 888 45 355</a>
+      </div>
     </div>
+  </div>
 
-    <div class="chatbot-container">
-        <div class="chat-tooltip" id="chattooltip" onclick="document.getElementById('chatbtn').click()">¡Hola! Consulta precios aquí</div>
-        <button class="chat-btn" id="chatbtn">
-            <svg width="40" height="40" viewBox="0 0 100 100"><rect x="5" y="10" width="90" height="80" rx="35" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/><rect x="15" y="25" width="70" height="50" rx="20" fill="#1a1a1a"/><path d="M 28 50 Q 36 36 44 50" fill="none" stroke="#00d2ff" stroke-width="6" stroke-linecap="round"/><path d="M 56 50 Q 64 36 72 50" fill="none" stroke="#00d2ff" stroke-width="6" stroke-linecap="round"/></svg>
-        </button>
-        <div class="chat-window" id="chatwindow">
-            <div class="chat-header"><span>🤖 Asistente Don Leo</span><button class="close-btn" id="closechatbtn">✖</button></div>
-            <div class="chat-body" id="chatbody"></div>
-            <div class="chat-footer"><input type="text" id="userinput" placeholder="Escribe aquí..."><button id="sendbtn">➤</button></div>
-        </div>
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="#inicio" data-view-link="inicio" aria-label="Ir al inicio">
+        <img class="brand-logo" src="https://scontent.fmga3-2.fna.fbcdn.net/v/t39.30808-6/683032138_122131613115081530_8572606612400972667_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=13d280&_nc_ohc=Oq7tWs3WA-wQ7kNvwGDCLR1&_nc_oc=AdqUV55mFoM1g9NYF9KSA1fPvk_vH52XqvGOkO309YCN4w3i0Nlk9IqAK9GHiO_0xONL6vZRYjSyS2EdmdyveOt8&_nc_zt=23&_nc_ht=scontent.fmga3-2.fna&_nc_gid=a_SgPgq4Q5jjLgA7F4cndA&_nc_ss=7b2a8&oh=00_Af0sPBIR_O8jcBu_MKwYgxu385kPhssR1U7o8emagGlXmg&oe=69F718F2" alt="Logo Laboratorio Clínico Don Leo" />
+        <div class="brand-copy"><strong>Laboratorio Clínico Don Leo</strong><span>Bioanálisis clínico · Nandaime</span></div>
+      </a>
+
+      <ul class="desktop-nav" aria-label="Navegación principal">
+        <li><button class="active" data-view-link="inicio">Inicio</button></li>
+        <li><button data-view-link="examenes">Exámenes y precios</button></li>
+        <li><button data-view-link="servicios">Servicios</button></li>
+        <li><button data-view-link="historia">Nuestra historia</button></li>
+        <li><button data-view-link="faq">Preguntas</button></li>
+        <li><button data-view-link="contacto">Contacto</button></li>
+      </ul>
+
+      <div class="header-actions">
+        <button class="header-search" data-open-search aria-label="Buscar un examen"><span aria-hidden="true">⌕</span><span>Buscar examen</span></button>
+        <a class="header-wa" href="https://wa.me/50588845355?text=Hola%2C%20deseo%20agendar%20un%20examen." target="_blank" rel="noopener">💬 Agendar</a>
+        <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+      </div>
     </div>
+  </header>
 
-    <script>
-        function togglemenu() { document.getElementById('nav-links').classList.toggle('nav-active'); }
-        function showpage(pageid) {
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-links li').forEach(l => l.classList.remove('active-link'));
-            document.getElementById(pageid).classList.add('active');
-            const activenav = document.getElementById('nav-' + pageid);
-            if(activenav) activenav.classList.add('active-link');
-            if (document.getElementById('nav-links').classList.contains('nav-active')) togglemenu();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+  <main>
+    <!-- INICIO -->
+    <section class="view active" id="view-inicio" data-view="inicio">
+      <div class="hero">
+        <div class="container hero-inner">
+          <div>
+            <div class="hero-badge">✓ Atención humana · Precisión diagnóstica</div>
+            <h1>Tu salud merece resultados en los que puedas <span>confiar.</span></h1>
+            <p class="hero-copy">Bioanálisis clínico en Nandaime con experiencia profesional, tecnología moderna y atención cercana para cada paciente.</p>
 
-        const dbcategorizada = {
-            "QUÍMICA SANGUÍNEA": {"GLICEMIA": "C$ 90", "CREATININA": "C$ 130", "ACIDO URICO": "C$ 150", "COLESTEROL": "C$ 150", "TRIGLICERIDOS": "C$ 150", "LDH": "C$ 500", "UREA": "C$ 150", "BUN": "C$ 150", "SODIO": "C$ 250", "POTASIO": "C$ 250", "CALCIO": "C$ 250", "MAGNESIO": "C$ 250", "FOSFORO": "C$ 250", "CLORO": "C$ 250", "VDRL": "C$ 150", "VIH": "C$ 600", "TGO": "C$ 150", "TGP": "C$ 150", "GGT": "C$ 250", "BILIRRUBINAS": "C$ 350", "PCR": "C$ 300", "ASLO": "C$ 300", "FR": "C$ 300", "AMILASA": "C$ 500", "LIPASA": "C$ 500", "ALBUMINA": "C$ 450", "PROTEINAS T Y F": "C$ 600", "HEPATITIS A": "C$ 400", "HEPATITIS B": "C$ 400", "HEPATITIS C": "C$ 400", "FOSFATASA ALCALINA": "C$ 500", "HIERRO": "C$ 500", "FERRITINA": "C$ 500", "COLINESTERASA": "C$ 900", "HEMOGRAVIDEX": "C$ 130", "H. PYLORI EN SANGRE": "C$ 450"},
-            "HEMATOLOGÍA": {"BHC": "C$ 130", "HEMATOCRITO": "C$ 100", "PLAQUETAS": "C$ 130", "GOTA GRUESA": "C$ 150", "TC": "C$ 130", "TS": "C$ 130", "TP": "C$ 150", "TPT": "C$ 150", "FIBRIONOGENO": "C$ 180", "INR": "C$ 180", "VSG": "C$ 150", "RETICULOCITOS": "C$ 200", "TIPO Y RH": "C$ 150", "EXTENDIDO PERIFERICO": "C$ 350", "CONSTANTES CORP.": "C$ 300"},
-            "UROLOGÍA": {"EGO": "C$ 90", "PROTEINAS EN O. 24 HRS": "C$ 600", "PROTEINAS EN O. ESP.": "C$ 600", "MICROALBUMINURIA": "C$ 600", "UROGRAVINDEX": "C$ 130", "RELACIÓN ALB/CREA": "C$ 600"},
-            "COPROLOGÍA": {"EGH": "C$ 90", "CITOLOGIA FECAL": "C$ 120", "HELICO. PYLORI EN HECES": "C$ 550", "AZUCARES REDUCTORES": "C$ 180", "SANGRE OCULTA EN HECES": "C$ 350"},
-            "MICROBIOLOGÍA": {"UROCULTIVO": "C$ 500", "COPROCULTIVO": "C$ 600", "EXUDADO FARINGEO": "C$ 600", "EXUDADO VAGINAL": "C$ 800", "CULTIVO DE SECRECION": "C$ 700", "ESPERMOCULTIVO": "C$ 700"},
-            "PERFILES": {"PERFIL HEPATICO": "C$ 850", "PERFIL LIPIDICO": "C$ 500", "PERFIL TIROIDEO": "C$ 1500", "PERFIL RENAL": "C$ 2800", "PERFIL REUMATICO": "C$ 1200"},
-            "EXÁMENES ESPECIALES": {"ESPERMATOGRAMA": "C$ 700", "TOLERANCIA ORAL A LA GLUC.": "C$ 700", "HBA1C": "C$ 700", "PSA": "C$ 700", "T3": "C$ 600", "T4": "C$ 600", "TSH": "C$ 600", "ANA": "C$ 2500", "PROCALCITONINA": "C$ 2500", "CA 125": "C$ 2000", "CA 19.9": "C$ 2000", "CA 15.3": "C$ 2000", "CEA": "C$ 2500", "ALFAFETOPROTEINA": "C$ 1500", "COCAINA": "C$ 500", "MARIHUANA": "C$ 500", "BETA HCG": "C$ 1600", "TROPONINA": "C$ 1000", "PROLACTINA": "C$ 2500", "CITOMEGALOVIRUS": "C$ 1500", "COOMBS INDIRECTO": "C$ 350", "CPK MB": "C$ 1000", "CPK TOTAL": "C$ 1000"}
-        };
+            <form class="hero-search" id="heroSearchForm">
+              <div class="hero-search-field">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                <input id="heroSearchInput" autocomplete="off" placeholder="¿Qué examen buscas? Ej. BHC, TSH, glucosa..." aria-label="Buscar examen o precio" />
+              </div>
+              <button type="submit">Ver precio</button>
+            </form>
+            <div class="hero-search-hint">Busca por nombre o abre el catálogo por categoría. No necesitas recorrer listas.</div>
 
-        const precios = {}; for (let cat in dbcategorizada) { for (let exam in dbcategorizada[cat]) { precios[exam] = dbcategorizada[cat][exam]; } }
-        
-        function populatecatalog() {
-            const grid = document.getElementById('cataloggrid'); grid.innerHTML = '';
-            for (let cat in dbcategorizada) {
-                let cathtml = `<div class="catalog-category"><h4>${cat}</h4>`;
-                for (let exam in dbcategorizada[cat]) { cathtml += `<div class="catalog-item"><span>${exam}</span> <strong>${dbcategorizada[cat][exam]}</strong></div>`; }
-                grid.innerHTML += cathtml + `</div>`;
-            }
-        }
-        
-        function opencatalogmodal() { 
-            populatecatalog(); 
-            document.getElementById('catalogmodal').style.display = 'flex'; 
-        }
-        
-        function closecatalogmodal() { 
-            document.getElementById('catalogmodal').style.display = 'none'; 
-        }
+            <div class="hero-actions">
+              <button class="btn btn-ghost" data-view-link="examenes">Explorar exámenes</button>
+              <a class="btn btn-ghost" href="https://share.google/9vUGHdJO8KlKk1VPr" target="_blank" rel="noopener">📍 Cómo llegar</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        // Función global para enviar cotización a WhatsApp desde el formulario del chat
-        window.enviarcotizacionwa = function() {
-            let nombre = document.getElementById('nombrecotizacion').value.trim();
-            let examenes = document.getElementById('examenescotizacion').value.trim();
-            
-            if (!nombre || !examenes) {
-                alert("Por favor, ingrese su nombre y los exámenes que desea cotizar.");
-                return;
-            }
-            
-            let mensaje = `Hola, mi nombre es ${nombre} y me gustaría cotizar los siguientes exámenes: ${examenes}.`;
-            let url = `https://wa.me/50588845355?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
-        };
+      <div class="quick-zone">
+        <div class="container quick-grid">
+          <button class="quick-card primary" data-open-search>
+            <span class="arrow">↗</span><div class="q-icon">⌕</div>
+            <strong>Buscar examen y precio</strong><span>Escribe el nombre y encuentra el precio en segundos.</span>
+          </button>
+          <a class="quick-card" href="https://wa.me/50588845355?text=Hola%2C%20deseo%20agendar%20un%20examen." target="_blank" rel="noopener" style="text-decoration:none">
+            <span class="arrow">↗</span><div class="q-icon">💬</div>
+            <strong>Agendar por WhatsApp</strong><span>Consulta disponibilidad directamente con el laboratorio.</span>
+          </a>
+          <button class="quick-card" data-view-link="faq">
+            <span class="arrow">↗</span><div class="q-icon">🩸</div>
+            <strong>¿Necesito ayuno?</strong><span>Consulta recomendaciones y preguntas frecuentes.</span>
+          </button>
+          <button class="quick-card" data-view-link="contacto">
+            <span class="arrow">↗</span><div class="q-icon">📍</div>
+            <strong>Horario y ubicación</strong><span>Encuentra cómo llegar y nuestros medios de contacto.</span>
+          </button>
+        </div>
+      </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const chatbtn = document.getElementById('chatbtn');
-            const chatwindow = document.getElementById('chatwindow');
-            const chatbody = document.getElementById('chatbody');
-            const userinput = document.getElementById('userinput');
-            const sendbtn = document.getElementById('sendbtn');
-            let chatinitialized = false;
+      <div class="home-content">
+        <div class="container home-split">
+          <article class="home-story">
+            <div class="eyebrow">Laboratorio Clínico Don Leo</div>
+            <h2>Experiencia clínica con un trato cercano.</h2>
+            <p>Somos un centro especializado en bioanálisis clínico ubicado en el corazón de Nandaime. Bajo la dirección del Lic. Leonardo José Marcenaro Gutiérrez, trabajamos para ofrecer diagnósticos precisos, confianza y atención profesional a nuestra comunidad.</p>
+            <div class="trust-inline">
+              <div class="trust-pill"><strong>30 años</strong><span>de experiencia profesional.</span></div>
+              <div class="trust-pill"><strong>Mismo día</strong><span>para exámenes de rutina.</span></div>
+              <div class="trust-pill"><strong>Digital</strong><span>resultados por WhatsApp o correo.</span></div>
+            </div>
+            <button class="btn btn-secondary" style="margin-top:22px" data-view-link="historia">Conocer nuestra historia →</button>
+          </article>
 
-            chatbtn.addEventListener('click', () => { 
-                chatwindow.style.display = 'flex'; 
-                document.getElementById('chattooltip').style.display = 'none';
-                
-                if(!chatinitialized) {
-                    const welcomehtml = `
-                        <div class="message bot-msg">
-                            ¡Hola! 👋 Soy el asistente virtual del Laboratorio Don Leo. Elige una opción rápida o escribe lo que buscas:
-                            <div class="chat-options">
-                                <button class="chat-option-btn" onclick="document.getElementById('userinput').value='Cotizar'; document.getElementById('sendbtn').click();">📝 Cotizar Exámenes</button>
-                                <button class="chat-option-btn" onclick="opencatalogmodal()">📋 Precios</button>
-                                <button class="chat-option-btn" onclick="document.getElementById('userinput').value='Horario'; document.getElementById('sendbtn').click();">🕒 Horario</button>
-                                <button class="chat-option-btn" onclick="document.getElementById('userinput').value='Preparación'; document.getElementById('sendbtn').click();">🩸 Preparación / Ayuno</button>
-                                <button class="chat-option-btn" onclick="document.getElementById('userinput').value='Ubicación'; document.getElementById('sendbtn').click();">📍 Ubicación</button>
-                                <a href="https://wa.me/50588845355" target="_blank" class="chat-option-btn whatsapp-btn">💬 WhatsApp</a>
-                                <a href="tel:25620246" class="chat-option-btn phone-btn">📞 Llamar: 2562-0246</a>
-                            </div>
-                        </div>
-                    `;
-                    chatbody.innerHTML = welcomehtml;
-                    chatinitialized = true;
-                }
-            });
-            
-            document.getElementById('closechatbtn').addEventListener('click', () => chatwindow.style.display = 'none');
+          <aside class="home-mission">
+            <div class="eyebrow">Nuestra misión</div>
+            <h2>Precisión al servicio de la comunidad.</h2>
+            <p>Brindar diagnósticos clínicos con los más altos estándares de precisión, utilizando tecnología avanzada para ofrecer resultados comparables con los del primer mundo, contribuyendo así al bienestar y la salud de la comunidad de Nandaime.</p>
+            <div class="mission-link"><button class="btn btn-primary" data-view-link="servicios">Ver nuestros servicios</button></div>
+          </aside>
+        </div>
+      </div>
+    </section>
 
-            sendbtn.addEventListener('click', sendmessage);
-            userinput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendmessage(); });
+    <!-- EXAMENES -->
+    <section class="view" id="view-examenes" data-view="examenes">
+      <div class="page-hero">
+        <div class="container">
+          <div class="eyebrow">Consulta rápida</div>
+          <h1>Exámenes y precios</h1>
+          <p>Busca directamente el examen que necesitas o entra por categoría. El catálogo completo existe, pero solo aparece cuando tú lo necesitas.</p>
+        </div>
+      </div>
+      <div class="page-body">
+        <div class="container exam-layout">
+          <aside class="exam-sidebar">
+            <h3>Filtrar por categoría</h3>
+            <div class="category-list" id="categoryList"></div>
+            <div class="exam-help">
+              <p>¿No encuentras el examen o necesitas confirmar una indicación especial?</p>
+              <a class="btn btn-primary" href="https://wa.me/50588845355?text=Hola%2C%20quiero%20consultar%20un%20examen." target="_blank" rel="noopener">Preguntar por WhatsApp</a>
+            </div>
+          </aside>
 
-            function sendmessage() {
-                const text = userinput.value.trim(); if (!text) return;
-                const userdiv = document.createElement("div"); userdiv.className = "message user-msg"; userdiv.textContent = text;
-                chatbody.appendChild(userdiv); userinput.value = ""; chatbody.scrollTop = chatbody.scrollHeight;
-                setTimeout(() => {
-                    const botdiv = document.createElement("div"); botdiv.className = "message bot-msg";
-                    botdiv.innerHTML = getresponse(text); chatbody.appendChild(botdiv); chatbody.scrollTop = chatbody.scrollHeight;
-                }, 600);
-            }
+          <div class="exam-main">
+            <div class="exam-search-panel">
+              <div class="exam-search-row">
+                <div class="exam-input-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                  <input class="exam-input" id="examSearch" autocomplete="off" placeholder="Buscar BHC, TSH, perfil lipídico, glucosa..." />
+                  <button class="clear-search" id="clearSearch" aria-label="Limpiar búsqueda">×</button>
+                </div>
+                <a class="btn btn-primary" href="https://wa.me/50588845355?text=Hola%2C%20quiero%20cotizar%20unos%20exámenes." target="_blank" rel="noopener">Cotizar</a>
+              </div>
+              <div class="search-note">Consejo: también puedes buscar abreviaturas como BHC, EGO, TSH, PSA o INR.</div>
+            </div>
 
-            function getresponse(input) {
-                const clean = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
-                
-                // Lógica de formulario de cotización
-                if (clean.includes("COTIZAR") || clean.includes("COTIZACION") || clean.includes("PRESUPUESTO")) {
-                    return `Para agilizar su atención, por favor ingrese su nombre y los exámenes que desea cotizar. Le enviaremos esta información directamente a nuestro WhatsApp:<br><br>
-                            <input type="text" id="nombrecotizacion" class="chat-input-form" placeholder="Su Nombre">
-                            <input type="text" id="examenescotizacion" class="chat-input-form" placeholder="Exámenes a cotizar">
-                            <button onclick="enviarcotizacionwa()" style="background:#25D366; color:white; border:none; padding:8px; border-radius:5px; width:100%; cursor:pointer; font-weight:bold; margin-top:5px;">📲 Enviar a WhatsApp</button>`;
-                }
+            <div id="categoryOverviewWrap">
+              <div class="result-head"><strong>Explorar por área</strong><span>Selecciona una categoría para ver sus exámenes</span></div>
+              <div class="category-cards" id="categoryCards"></div>
+            </div>
 
-                if (clean.includes("AYUDA") || clean.includes("ASISTENCIA") || clean.includes("PERSONA") || clean.includes("HUMANO") || clean.includes("HABLAR")) {
-                    return `Entiendo. Si necesitas ayuda directa, puedes tocar cualquiera de estos botones para comunicarte con nosotros de inmediato:<br><br>
-                            <a href="https://wa.me/50588845355" target="_blank" style="background:#25D366; color:white; padding:10px 15px; border-radius:5px; text-decoration:none; display:inline-block; font-weight:bold; width:100%; text-align:center; margin-bottom:8px;">💬 Hablar por WhatsApp</a>
-                            <a href="tel:25620246" style="background:var(--primary-color); color:white; padding:10px 15px; border-radius:5px; text-decoration:none; display:inline-block; font-weight:bold; width:100%; text-align:center;">📞 Llamar al 2562-0246</a>`;
-                }
+            <div id="resultsWrap" hidden>
+              <div class="result-head"><strong id="resultTitle">Resultados</strong><span id="resultMeta"></span></div>
+              <div class="exam-results" id="examResults"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                if (clean.includes("AYUNO") || clean.includes("PREPARACION") || clean.includes("REQUISITO") || clean.includes("ASISTIR") || clean.includes("RECOMENDACION")) {
-                    return `🩸 <strong>Recomendaciones para sus exámenes:</strong><br><br>
-                            • <strong>Ayuno:</strong> Para la mayoría de los análisis de sangre (como glucosa, perfil lipídico, etc.), le recomendamos presentarse con <strong>12 horas de ayuno</strong>.<br>
-                            • <strong>Higiene personal:</strong> Por su comodidad y para asegurar la correcta toma de ciertas muestras, le sugerimos asistir con su aseo personal del día (bañado).<br><br>
-                            <em>Si tiene dudas sobre un examen específico, toque el botón de "Ayuda" para hablar con nosotros.</em>`;
-                }
+    <!-- SERVICIOS -->
+    <section class="view" id="view-servicios" data-view="servicios">
+      <div class="page-hero">
+        <div class="container">
+          <div class="eyebrow">Nuestras especialidades</div>
+          <h1>Servicios clínicos para distintas necesidades</h1>
+          <p>Áreas de bioanálisis orientadas a apoyar el diagnóstico, seguimiento y valoración solicitada por su profesional de salud.</p>
+        </div>
+      </div>
+      <div class="page-body">
+        <div class="container">
+          <div class="services-grid">
+            <article class="service-card"><div class="service-icon">01</div><h3>Hematología</h3><p>Análisis detallado de glóbulos rojos, blancos y plaquetas, además de pruebas relacionadas.</p><button data-category-jump="HEMATOLOGÍA">Ver exámenes →</button></article>
+            <article class="service-card"><div class="service-icon">02</div><h3>Química Sanguínea</h3><p>Control metabólico, perfil lipídico, perfil hepático y diferentes determinaciones sanguíneas.</p><button data-category-jump="QUÍMICA SANGUÍNEA">Ver exámenes →</button></article>
+            <article class="service-card"><div class="service-icon">03</div><h3>Microbiología</h3><p>Urocultivos, coprocultivos y otros cultivos para apoyar la identificación de microorganismos.</p><button data-category-jump="MICROBIOLOGÍA">Ver exámenes →</button></article>
+            <article class="service-card"><div class="service-icon">04</div><h3>Pruebas Especiales</h3><p>Diagnósticos avanzados, hormonas y distintos marcadores disponibles en nuestro catálogo.</p><button data-category-jump="EXÁMENES ESPECIALES">Ver exámenes →</button></article>
+            <article class="service-card"><div class="service-icon">05</div><h3>Perfiles Clínicos</h3><p>Perfiles hepático, lipídico, tiroideo, renal y reumático para evaluaciones más integrales.</p><button data-category-jump="PERFILES">Ver exámenes →</button></article>
+            <article class="service-card"><div class="service-icon">06</div><h3>Urología y Coprología</h3><p>Exámenes de orina y heces para apoyar la valoración clínica solicitada.</p><button data-category-jump="UROLOGÍA">Ver exámenes →</button></article>
+          </div>
+          <div class="service-cta">
+            <div><h3>¿Ya sabes qué examen necesitas?</h3><p>Encuéntralo por nombre y consulta su precio sin navegar por todo el catálogo.</p></div>
+            <button class="btn btn-secondary" data-open-search>Buscar un examen</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                if (clean.includes("PRECIO") || clean.includes("CATALOGO") || clean.includes("LISTA")) {
-                    return '¡Claro! Haz clic aquí para ver todos los precios:<br><button onclick="opencatalogmodal()" style="background:var(--secondary-color); color:white; border:none; padding:8px; border-radius:5px; margin-top:5px; cursor:pointer;">Ver Catálogo de Precios</button>';
-                }
-                
-                if (clean.includes("HORARIO") || clean.includes("HORA")) {
-                    return '🕒 <strong>Horario de atención:</strong><br>• Lunes a Viernes: 7:30 am - 2:30 pm<br>• Sábados: 7:30 am - 12:30 pm<br>• Domingos: Cerrado';
-                }
+    <!-- HISTORIA -->
+    <section class="view" id="view-historia" data-view="historia">
+      <div class="page-hero">
+        <div class="container">
+          <div class="eyebrow">Nuestra historia</div>
+          <h1>Un sueño hecho realidad al servicio de su salud</h1>
+          <p>Una visión nacida en Nandaime para combinar experiencia científica, precisión tecnológica y atención humana.</p>
+        </div>
+      </div>
+      <div class="page-body">
+        <div class="container history-layout">
+          <div class="history-photo">
+            <img src="https://scontent.fmga3-2.fna.fbcdn.net/v/t39.30808-6/683317649_122131613073081530_7735227442387929603_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=13d280&_nc_ohc=WJnvk9ked08Q7kNvwGln3dF&_nc_oc=AdoHwLXibu1FPKYOHkrbIop5LB50Kxi1TNtaineJMW-E4H9rYmaM6_wB5iyVaTQvfKVXZXRYiAAJpmw5iv_j63ZA&_nc_zt=23&_nc_ht=scontent.fmga3-2.fna&_nc_gid=kxl1yC7SFK7vLkmJ35vr-g&_nc_ss=7b2a8&oh=00_Af2mG_Ep_FzFgiPep_bA9pkG8r-PxC5LtF8fdoI9GKSGKA&oe=69F88128" alt="Laboratorio Clínico Don Leo" />
+            <div class="history-photo-tag"><strong>Laboratorio Clínico Don Leo</strong><span>Nandaime, Granada, Nicaragua</span></div>
+          </div>
+          <div>
+            <article class="history-copy-card">
+              <div class="eyebrow">Cómo comenzamos</div>
+              <h2 class="section-title">Una visión enfocada en elevar el diagnóstico clínico local.</h2>
+              <p>Laboratorio Clínico Don Leo nace en Nandaime con el firme compromiso de elevar el estándar de los diagnósticos médicos en nuestra comunidad. Fundado por el Lic. Leonardo José Marcenaro Gutiérrez, este centro surge para llenar la necesidad de un servicio de bioanálisis que combine la calidez humana con la precisión tecnológica.</p>
+              <p>Desde el primer día, nos hemos enfocado en que cada paciente reciba una atención digna y resultados en los que su médico pueda confiar plenamente.</p>
+            </article>
 
-                if (clean.includes("UBICACION") || clean.includes("DIRECCION") || clean.includes("DONDE") || clean.includes("MAPA") || clean.includes("LLEGAR")) {
-                    return `📍 <strong>Nuestra ubicación:</strong><br>Del Palí de Nandaime, 75 varas al Este. Granada, Nicaragua.<br><br><a href="https://share.google/9vUGHdJO8KlKk1VPr" target="_blank" style="background:var(--secondary-color); color:white; padding:8px 12px; border-radius:5px; margin-top:10px; text-decoration:none; display:inline-block; font-weight:bold;">🗺️ Ver en Google Maps</a>`;
-                }
+            <article class="founder-card">
+              <div class="founder-media">
+                <img src="https://scontent.fmga3-2.fna.fbcdn.net/v/t39.30808-6/684228125_122131776567081530_7928849248743029929_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=13d280&_nc_ohc=Qr1EYiVo4r8Q7kNvwE__qh9&_nc_oc=AdqUvWtdxM7VARlSFaCT5o3qJJWdQ6zrqpkbHdeOINNvGIN_ntISsDzRBnTnlwOo4gaHiRKInKZwuvIqS5vgJEFr&_nc_zt=23&_nc_ht=scontent.fmga3-2.fna&_nc_gid=uu65gHzdbQ2iyBsNlGQIjw&_nc_ss=7b2a8&oh=00_Af1Klhbz73kda4JzTDBVhDjt_nCJ3YD0OkUTSx0sbduSXA&oe=69F883BE" alt="Lic. Leonardo José Marcenaro Gutiérrez" />
+                <strong>Lic. Leonardo José Marcenaro Gutiérrez</strong><span>Fundador, Director y Propietario</span>
+              </div>
+              <div class="founder-text">
+                <div class="bio-point"><h4>Trayectoria y excelencia en Bioquímica Clínica</h4><p>Profesional de las ciencias de la salud con 30 años de experiencia dedicada al diagnóstico clínico. Egresó en 1993 de la Universidad de La Habana como Licenciado en Bioquímica.</p></div>
+                <div class="bio-point"><h4>Experiencia en instituciones de referencia</h4><p>Se desempeñó como Jefe de Área en el Hospital Escuela Antonio Lenin Fonseca y formó parte del equipo profesional del Hospital Amistad Japón Nicaragua.</p></div>
+                <div class="bio-point"><h4>Director y propietario</h4><p>Ha consolidado un espacio donde la experiencia hospitalaria se traduce en precisión diagnóstica, calidad y un trato humano excepcional.</p></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                let foundexams = [];
-                for (let exam in precios) {
-                    if (clean.includes(exam) || exam.includes(clean)) {
-                        if (clean.length > 2) foundexams.push(`<strong>• ${exam}:</strong> ${precios[exam]}`);
-                    }
-                }
-                
-                if (foundexams.length > 0) {
-                    return `Aquí tienes los precios que encontré:<br><br>${foundexams.join('<br>')}`;
-                }
+    <!-- FAQ -->
+    <section class="view" id="view-faq" data-view="faq">
+      <div class="page-hero">
+        <div class="container">
+          <div class="eyebrow">Antes de venir</div>
+          <h1>Preguntas frecuentes</h1>
+          <p>Respuestas rápidas sobre citas, resultados, tiempos de entrega y preparación para sus exámenes.</p>
+        </div>
+      </div>
+      <div class="page-body">
+        <div class="container faq-layout">
+          <aside class="faq-aside">
+            <div class="eyebrow">¿Aún tienes dudas?</div>
+            <h2 style="font-size:2rem;line-height:1.08;margin-top:10px">Habla directamente con nosotros.</h2>
+            <p>Si tu examen requiere una preparación especial, lo más seguro es confirmar las indicaciones específicas con el laboratorio.</p>
+            <a class="btn btn-secondary" href="https://wa.me/50588845355?text=Hola%2C%20tengo%20una%20consulta%20sobre%20un%20examen." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+          </aside>
+          <div class="faq-list">
+            <details><summary>¿Se necesita cita previa?</summary><p>No es estrictamente necesario; atendemos por orden de llegada. Puede agendar vía WhatsApp para su comodidad.</p></details>
+            <details><summary>¿Cuánto tiempo tardan en entregar los resultados?</summary><p>Los exámenes de rutina se entregan el mismo día. Las pruebas especiales o cultivos pueden tardar de 3 a 5 días hábiles.</p></details>
+            <details><summary>¿Pueden enviar mis resultados por WhatsApp?</summary><p>Sí. Ofrecemos el envío de resultados en formato PDF a su WhatsApp o correo electrónico.</p></details>
+            <details><summary>¿Realizan pruebas de bacteriología?</summary><p>Sí. Contamos con urocultivos, coprocultivos y cultivos de secreciones dentro de nuestro catálogo.</p></details>
+            <details><summary>¿Necesito ayuno para mis exámenes?</summary><p>La preparación depende del examen. Para varios análisis de sangre, como glucosa o perfil lipídico, se recomienda presentarse con 12 horas de ayuno. Para una prueba específica, confirme directamente con el laboratorio.</p></details>
+            <details><summary>¿Dónde están ubicados?</summary><p>Del Palí de Nandaime, 75 varas al Este, Granada, Nicaragua.</p></details>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                return 'No encontré una respuesta específica. ¿Podrías intentar escribiendo "Cotizar" para enviar tu consulta o tocar el botón de "WhatsApp" / "Llamar" para que te atendamos en persona?';
-            }
-        });
-    </script>
+    <!-- CONTACTO -->
+    <section class="view" id="view-contacto" data-view="contacto">
+      <div class="page-hero">
+        <div class="container">
+          <div class="eyebrow">Estamos para atenderte</div>
+          <h1>Contacto, horario y ubicación</h1>
+          <p>Elige la forma más cómoda de comunicarte con nosotros o abre la ubicación directamente en Google Maps.</p>
+        </div>
+      </div>
+      <div class="page-body">
+        <div class="container contact-grid">
+          <article class="contact-card">
+            <h3>Información del laboratorio</h3>
+            <div class="contact-lines">
+              <div class="contact-line"><i>💬</i><div><strong>WhatsApp</strong><a href="https://wa.me/50588845355" target="_blank" rel="noopener">+505 888 45 355</a></div></div>
+              <div class="contact-line"><i>☎</i><div><strong>Teléfono</strong><a href="tel:25620246">2562-0246</a></div></div>
+              <div class="contact-line"><i>✉</i><div><strong>Correo electrónico</strong><a href="mailto:leomarce66@yahoo.es">leomarce66@yahoo.es</a></div></div>
+              <div class="contact-line"><i>🕒</i><div><strong>Horario</strong><span>Lunes a Viernes: 7:30 am – 2:30 pm<br>Sábado: 7:30 am – 12:30 pm<br>Domingo: Cerrado</span></div></div>
+              <div class="contact-line"><i>f</i><div><strong>Facebook</strong><a href="https://www.facebook.com/share/17XkSLaA8p/" target="_blank" rel="noopener">Visitar nuestra página</a></div></div>
+            </div>
+          </article>
+          <aside class="contact-map">
+            <h3>Del Palí de Nandaime, 75 varas al Este.</h3>
+            <p>Granada, Nicaragua. Abre la ruta en Google Maps para llegar directamente al laboratorio.</p>
+            <a class="btn btn-secondary" href="https://share.google/9vUGHdJO8KlKk1VPr" target="_blank" rel="noopener">🗺️ Abrir Google Maps</a>
+            <a class="btn btn-ghost" style="margin-left:8px" href="https://wa.me/50588845355" target="_blank" rel="noopener">💬 WhatsApp</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="https://scontent.fmga3-2.fna.fbcdn.net/v/t39.30808-6/683032138_122131613115081530_8572606612400972667_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=13d280&_nc_ohc=Oq7tWs3WA-wQ7kNvwGDCLR1&_nc_oc=AdqUV55mFoM1g9NYF9KSA1fPvk_vH52XqvGOkO309YCN4w3i0Nlk9IqAK9GHiO_0xONL6vZRYjSyS2EdmdyveOt8&_nc_zt=23&_nc_ht=scontent.fmga3-2.fna&_nc_gid=a_SgPgq4Q5jjLgA7F4cndA&_nc_ss=7b2a8&oh=00_Af0sPBIR_O8jcBu_MKwYgxu385kPhssR1U7o8emagGlXmg&oe=69F718F2" alt="" />
+          <div><strong>Laboratorio Clínico Don Leo</strong><span>Precisión diagnóstica · Atención humana</span></div>
+        </div>
+        <div class="footer-links">
+          <button data-view-link="examenes">Exámenes y precios</button>
+          <button data-view-link="historia">Historia</button>
+          <button data-view-link="faq">Preguntas frecuentes</button>
+          <button data-view-link="contacto">Contacto</button>
+        </div>
+      </div>
+      <div class="copyright">© 2026 Laboratorio Clínico Don Leo. Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <!-- SEARCH MODAL -->
+  <div class="overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-labelledby="searchModalTitle">
+    <div class="search-modal">
+      <div class="modal-top">
+        <div class="modal-input-wrap">
+          <span class="sr-only" id="searchModalTitle">Buscar examen y precio</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input class="modal-input" id="globalSearch" autocomplete="off" placeholder="Escribe un examen: BHC, glucosa, TSH..." />
+        </div>
+        <button class="modal-close" id="searchClose" aria-label="Cerrar búsqueda">×</button>
+      </div>
+      <div class="modal-content">
+        <div class="modal-hint" id="modalHint">Empieza a escribir o selecciona uno de los resultados sugeridos.</div>
+        <div id="globalResults"></div>
+      </div>
+      <div class="modal-footer"><span>Tip: escribe abreviaturas como BHC, EGO, TSH, PSA o INR.</span><button data-view-link="examenes" style="border:0;background:transparent;color:var(--blue);font-weight:850">Ver catálogo por categorías →</button></div>
+    </div>
+  </div>
+
+  <!-- QUICK HELP -->
+  <button class="help-fab" id="helpFab" aria-label="Abrir opciones de contacto">✦</button>
+  <div class="help-menu" id="helpMenu">
+    <button data-open-search><span>⌕</span>Buscar examen o precio</button>
+    <a href="https://wa.me/50588845355" target="_blank" rel="noopener"><span>💬</span>Escribir por WhatsApp</a>
+    <a href="tel:25620246"><span>☎</span>Llamar al laboratorio</a>
+    <button data-view-link="contacto"><span>📍</span>Ver horario y ubicación</button>
+  </div>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-bottom" aria-label="Navegación móvil">
+    <button class="active" data-view-link="inicio"><b>⌂</b>Inicio</button>
+    <button data-view-link="examenes"><b>⌕</b>Exámenes</button>
+    <button data-view-link="contacto"><b>📍</b>Ubicación</button>
+    <a href="https://wa.me/50588845355" target="_blank" rel="noopener"><b>💬</b>WhatsApp</a>
+  </nav>
+
+  <script>
+    const db = {
+      "QUÍMICA SANGUÍNEA": {"GLICEMIA":"C$ 90","CREATININA":"C$ 130","ACIDO URICO":"C$ 150","COLESTEROL":"C$ 150","TRIGLICERIDOS":"C$ 150","LDH":"C$ 500","UREA":"C$ 150","BUN":"C$ 150","SODIO":"C$ 250","POTASIO":"C$ 250","CALCIO":"C$ 250","MAGNESIO":"C$ 250","FOSFORO":"C$ 250","CLORO":"C$ 250","VDRL":"C$ 150","VIH":"C$ 600","TGO":"C$ 150","TGP":"C$ 150","GGT":"C$ 250","BILIRRUBINAS":"C$ 350","PCR":"C$ 300","ASLO":"C$ 300","FR":"C$ 300","AMILASA":"C$ 500","LIPASA":"C$ 500","ALBUMINA":"C$ 450","PROTEINAS T Y F":"C$ 600","HEPATITIS A":"C$ 400","HEPATITIS B":"C$ 400","HEPATITIS C":"C$ 400","FOSFATASA ALCALINA":"C$ 500","HIERRO":"C$ 500","FERRITINA":"C$ 500","COLINESTERASA":"C$ 900","HEMOGRAVIDEX":"C$ 130","H. PYLORI EN SANGRE":"C$ 450"},
+      "HEMATOLOGÍA": {"BHC":"C$ 130","HEMATOCRITO":"C$ 100","PLAQUETAS":"C$ 130","GOTA GRUESA":"C$ 150","TC":"C$ 130","TS":"C$ 130","TP":"C$ 150","TPT":"C$ 150","FIBRIONOGENO":"C$ 180","INR":"C$ 180","VSG":"C$ 150","RETICULOCITOS":"C$ 200","TIPO Y RH":"C$ 150","EXTENDIDO PERIFERICO":"C$ 350","CONSTANTES CORP.":"C$ 300"},
+      "UROLOGÍA": {"EGO":"C$ 90","PROTEINAS EN O. 24 HRS":"C$ 600","PROTEINAS EN O. ESP.":"C$ 600","MICROALBUMINURIA":"C$ 600","UROGRAVINDEX":"C$ 130","RELACIÓN ALB/CREA":"C$ 600"},
+      "COPROLOGÍA": {"EGH":"C$ 90","CITOLOGIA FECAL":"C$ 120","HELICO. PYLORI EN HECES":"C$ 550","AZUCARES REDUCTORES":"C$ 180","SANGRE OCULTA EN HECES":"C$ 350"},
+      "MICROBIOLOGÍA": {"UROCULTIVO":"C$ 500","COPROCULTIVO":"C$ 600","EXUDADO FARINGEO":"C$ 600","EXUDADO VAGINAL":"C$ 800","CULTIVO DE SECRECION":"C$ 700","ESPERMOCULTIVO":"C$ 700"},
+      "PERFILES": {"PERFIL HEPATICO":"C$ 850","PERFIL LIPIDICO":"C$ 500","PERFIL TIROIDEO":"C$ 1500","PERFIL RENAL":"C$ 2800","PERFIL REUMATICO":"C$ 1200"},
+      "EXÁMENES ESPECIALES": {"ESPERMATOGRAMA":"C$ 700","TOLERANCIA ORAL A LA GLUC.":"C$ 700","HBA1C":"C$ 700","PSA":"C$ 700","T3":"C$ 600","T4":"C$ 600","TSH":"C$ 600","ANA":"C$ 2500","PROCALCITONINA":"C$ 2500","CA 125":"C$ 2000","CA 19.9":"C$ 2000","CA 15.3":"C$ 2000","CEA":"C$ 2500","ALFAFETOPROTEINA":"C$ 1500","COCAINA":"C$ 500","MARIHUANA":"C$ 500","BETA HCG":"C$ 1600","TROPONINA":"C$ 1000","PROLACTINA":"C$ 2500","CITOMEGALOVIRUS":"C$ 1500","COOMBS INDIRECTO":"C$ 350","CPK MB":"C$ 1000","CPK TOTAL":"C$ 1000"}
+    };
+
+    const normalize = text => (text || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().trim();
+    const allExams = Object.entries(db).flatMap(([category,items]) => Object.entries(items).map(([name,price]) => ({category,name,price})));
+    let activeCategory = 'ALL';
+
+    // ----- SPA navigation -----
+    const views = [...document.querySelectorAll('.view')];
+    const navButtons = [...document.querySelectorAll('[data-view-link]')];
+    const mobileNavButtons = [...document.querySelectorAll('.mobile-bottom [data-view-link]')];
+
+    function showView(name, pushHash=true){
+      const safe = views.some(v=>v.dataset.view===name) ? name : 'inicio';
+      views.forEach(v=>v.classList.toggle('active',v.dataset.view===safe));
+      navButtons.forEach(b=>b.classList.toggle('active',b.dataset.viewLink===safe));
+      mobileNavButtons.forEach(b=>b.classList.toggle('active',b.dataset.viewLink===safe));
+      if(pushHash && location.hash !== '#' + safe) history.replaceState(null,'','#'+safe);
+      window.scrollTo({top:0,behavior:'instant'});
+      closeSearch();
+      helpMenu.classList.remove('open');
+    }
+
+    document.addEventListener('click',e=>{
+      const link=e.target.closest('[data-view-link]');
+      if(!link) return;
+      e.preventDefault();
+      showView(link.dataset.viewLink);
+    });
+
+    window.addEventListener('hashchange',()=>showView(location.hash.replace('#','')||'inicio',false));
+
+    // ----- Search modal -----
+    const searchOverlay=document.getElementById('searchOverlay');
+    const globalSearch=document.getElementById('globalSearch');
+    const globalResults=document.getElementById('globalResults');
+    const modalHint=document.getElementById('modalHint');
+    const searchClose=document.getElementById('searchClose');
+
+    function openSearch(prefill=''){
+      globalSearch.placeholder='Escribe un examen: BHC, glucosa, TSH...';
+      searchOverlay.classList.add('open');
+      document.body.classList.add('modal-open');
+      globalSearch.value=prefill;
+      renderGlobalResults(prefill);
+      setTimeout(()=>globalSearch.focus(),40);
+    }
+    function closeSearch(){
+      globalSearch.placeholder='Escribe un examen: BHC, glucosa, TSH...';
+      searchOverlay.classList.remove('open');
+      document.body.classList.remove('modal-open');
+    }
+    document.querySelectorAll('[data-open-search]').forEach(b=>b.addEventListener('click',()=>openSearch()));
+    searchClose.addEventListener('click',closeSearch);
+    searchOverlay.addEventListener('click',e=>{if(e.target===searchOverlay)closeSearch();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();}});
+    globalSearch.addEventListener('input',()=>renderGlobalResults(globalSearch.value));
+
+    function searchExams(term){
+      const q=normalize(term);
+      if(!q) return [];
+      return allExams.filter(x=>normalize(x.name).includes(q)||normalize(x.category).includes(q)).slice(0,12);
+    }
+    function renderGlobalResults(term){
+      const q=term.trim();
+      if(!q){
+        modalHint.textContent='Empieza a escribir o usa una búsqueda frecuente:';
+        const common=['BHC','GLICEMIA','TSH','EGO','PERFIL LIPIDICO','CREATININA'];
+        globalResults.innerHTML=common.map(name=>{
+          const x=allExams.find(i=>i.name===name);return x?resultButton(x):'';
+        }).join('');
+        return;
+      }
+      const matches=searchExams(q);
+      modalHint.textContent=matches.length?`${matches.length} coincidencia${matches.length===1?'':'s'} encontrada${matches.length===1?'':'s'}.`:'No encontramos una coincidencia exacta.';
+      globalResults.innerHTML=matches.length?matches.map(resultButton).join(''):`<div class="modal-empty">Prueba con otro nombre o <button style="border:0;background:transparent;color:var(--blue);font-weight:850" data-view-link="examenes">explora por categoría</button>.</div>`;
+    }
+    function resultButton(x){
+      return `<button class="modal-result" data-exam-result="${escapeAttr(x.name)}"><span><strong>${escapeHtml(x.name)}</strong><small>${escapeHtml(x.category)}</small></span><span class="price">${escapeHtml(x.price)}</span></button>`;
+    }
+    globalResults.addEventListener('click',e=>{
+      const b=e.target.closest('[data-exam-result]');if(!b)return;
+      const exam=b.dataset.examResult;
+      showView('examenes');
+      examSearch.value=exam;
+      activeCategory='ALL';
+      renderExamPage();
+      closeSearch();
+      setTimeout(()=>examSearch.focus(),80);
+    });
+
+    // ----- Hero search -----
+    const heroSearchForm=document.getElementById('heroSearchForm');
+    const heroSearchInput=document.getElementById('heroSearchInput');
+    heroSearchForm.addEventListener('submit',e=>{e.preventDefault();openSearch(heroSearchInput.value.trim());});
+
+    // ----- Exam page -----
+    const categoryList=document.getElementById('categoryList');
+    const categoryCards=document.getElementById('categoryCards');
+    const examSearch=document.getElementById('examSearch');
+    const clearSearch=document.getElementById('clearSearch');
+    const categoryOverviewWrap=document.getElementById('categoryOverviewWrap');
+    const resultsWrap=document.getElementById('resultsWrap');
+    const examResults=document.getElementById('examResults');
+    const resultTitle=document.getElementById('resultTitle');
+    const resultMeta=document.getElementById('resultMeta');
+
+    function initExamPage(){
+      const cats=Object.keys(db);
+      categoryList.innerHTML=`<button class="category-btn active" data-category="ALL">Todos / explorar <span class="category-count">${allExams.length}</span></button>`+
+        cats.map(c=>`<button class="category-btn" data-category="${escapeAttr(c)}">${escapeHtml(c)} <span class="category-count">${Object.keys(db[c]).length}</span></button>`).join('');
+      categoryCards.innerHTML=cats.map(c=>`<button class="category-card" data-category="${escapeAttr(c)}"><strong>${escapeHtml(c)}</strong><span>${Object.keys(db[c]).length} exámenes disponibles</span><b>Explorar →</b></button>`).join('');
+      renderExamPage();
+    }
+
+    function renderExamPage(){
+      const q=normalize(examSearch.value);
+      clearSearch.classList.toggle('show',!!q);
+      document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',b.dataset.category===activeCategory));
+      if(!q && activeCategory==='ALL'){
+        categoryOverviewWrap.hidden=false;
+        resultsWrap.hidden=true;
+        return;
+      }
+      categoryOverviewWrap.hidden=true;
+      resultsWrap.hidden=false;
+      let items=allExams.filter(x=>(activeCategory==='ALL'||x.category===activeCategory) && (!q||normalize(x.name).includes(q)||normalize(x.category).includes(q)));
+      resultTitle.textContent=q?`Resultados para “${examSearch.value.trim()}”`:activeCategory;
+      resultMeta.textContent=`${items.length} examen${items.length===1?'':'es'}`;
+      examResults.innerHTML=items.length?items.map(x=>`<article class="exam-card"><div><h4>${escapeHtml(x.name)}</h4><small>${escapeHtml(x.category)}</small></div><span class="price">${escapeHtml(x.price)}</span></article>`).join(''):`<div class="empty"><strong>No encontramos coincidencias.</strong>Prueba con otro nombre o cambia de categoría.</div>`;
+    }
+
+    categoryList.addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(!b)return;activeCategory=b.dataset.category;examSearch.value='';renderExamPage();});
+    categoryCards.addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(!b)return;activeCategory=b.dataset.category;examSearch.value='';renderExamPage();});
+    examSearch.addEventListener('input',()=>{activeCategory='ALL';renderExamPage();});
+    clearSearch.addEventListener('click',()=>{examSearch.value='';activeCategory='ALL';renderExamPage();examSearch.focus();});
+
+    document.querySelectorAll('[data-category-jump]').forEach(b=>b.addEventListener('click',()=>{
+      activeCategory=b.dataset.categoryJump;
+      examSearch.value='';
+      showView('examenes');
+      renderExamPage();
+    }));
+
+    // ----- Help menu -----
+    const helpFab=document.getElementById('helpFab');
+    const helpMenu=document.getElementById('helpMenu');
+    helpFab.addEventListener('click',()=>helpMenu.classList.toggle('open'));
+    document.addEventListener('click',e=>{if(!helpMenu.contains(e.target)&&e.target!==helpFab)helpMenu.classList.remove('open');});
+
+    // ----- Mobile menu (simple menu sheet) -----
+    const menuBtn=document.getElementById('menuBtn');
+    menuBtn.addEventListener('click',()=>{
+      const items=[
+        ['Inicio','inicio'],['Exámenes y precios','examenes'],['Servicios','servicios'],['Nuestra historia','historia'],['Preguntas frecuentes','faq'],['Contacto','contacto']
+      ];
+      globalResults.innerHTML=items.map(([label,key])=>`<button class="modal-result" data-menu-view="${key}"><span><strong>${label}</strong><small>Ir a esta sección</small></span><span>→</span></button>`).join('');
+      modalHint.textContent='Menú principal';
+      searchOverlay.classList.add('open');document.body.classList.add('modal-open');globalSearch.value='';globalSearch.placeholder='Buscar un examen o elegir una sección...';
+    });
+    globalResults.addEventListener('click',e=>{const b=e.target.closest('[data-menu-view]');if(!b)return;globalSearch.placeholder='Escribe un examen: BHC, glucosa, TSH...';showView(b.dataset.menuView);closeSearch();});
+
+    function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+    function escapeAttr(s){return escapeHtml(s).replace(/`/g,'&#096;');}
+
+    initExamPage();
+    const initialView=location.hash.replace('#','')||'inicio';
+    showView(initialView,false);
+  </script>
 </body>
 </html>
